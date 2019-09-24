@@ -9,14 +9,10 @@
 import UIKit
 
 class AddAlarmViewController: UIViewController {
-
-    @IBOutlet weak var timePicker: UIDatePicker!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        self.timePicker.datePickerMode = .time;
     }
     
 

@@ -15,10 +15,9 @@
 		D0205DAD2339CD5800D33F30 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0205DAC2339CD5800D33F30 /* Preview Assets.xcassets */; };
 		D0205DBB2339CD5800D33F30 /* ClockAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0205DBA2339CD5800D33F30 /* ClockAppTests.swift */; };
 		D0205DC62339CD5800D33F30 /* ClockAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0205DC52339CD5800D33F30 /* ClockAppUITests.swift */; };
-		D0205DD72339CF5600D33F30 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0205DD62339CF5600D33F30 /* Main.storyboard */; };
 		D0205DDC2339D02900D33F30 /* AlarmTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0205DDB2339D02900D33F30 /* AlarmTableViewController.swift */; };
 		D0A48C982339D08D008F8636 /* AddAlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A48C972339D08D008F8636 /* AddAlarmViewController.swift */; };
-		D0A48C9A2339D64B008F8636 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A48C992339D64B008F8636 /* ContentViewController.swift */; };
+		D0A48C9A2339D64B008F8636 /* PlaygroundTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A48C992339D64B008F8636 /* PlaygroundTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,10 +52,9 @@
 		D0205DC12339CD5800D33F30 /* ClockAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClockAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0205DC52339CD5800D33F30 /* ClockAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockAppUITests.swift; sourceTree = "<group>"; };
 		D0205DC72339CD5900D33F30 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D0205DD62339CF5600D33F30 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		D0205DDB2339D02900D33F30 /* AlarmTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmTableViewController.swift; sourceTree = "<group>"; };
 		D0A48C972339D08D008F8636 /* AddAlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAlarmViewController.swift; sourceTree = "<group>"; };
-		D0A48C992339D64B008F8636 /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
+		D0A48C992339D64B008F8636 /* PlaygroundTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,12 +109,11 @@
 				D0205DA02339CD5700D33F30 /* AppDelegate.swift */,
 				D0205DA22339CD5700D33F30 /* SceneDelegate.swift */,
 				D0205DA72339CD5700D33F30 /* ContentView.swift */,
-				D0A48C992339D64B008F8636 /* ContentViewController.swift */,
+				D0A48C992339D64B008F8636 /* PlaygroundTest.swift */,
 				D0205DA92339CD5800D33F30 /* Assets.xcassets */,
 				D0205DB12339CD5800D33F30 /* Info.plist */,
 				D0205DA42339CD5700D33F30 /* ClockApp.xcdatamodeld */,
 				D0205DAB2339CD5800D33F30 /* Preview Content */,
-				D0205DD62339CF5600D33F30 /* Main.storyboard */,
 			);
 			path = ClockApp;
 			sourceTree = "<group>";
@@ -260,7 +257,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0205DD72339CF5600D33F30 /* Main.storyboard in Resources */,
 				D0205DAD2339CD5800D33F30 /* Preview Assets.xcassets in Resources */,
 				D0205DAA2339CD5800D33F30 /* Assets.xcassets in Resources */,
 			);
@@ -293,7 +289,7 @@
 				D0205DA32339CD5700D33F30 /* SceneDelegate.swift in Sources */,
 				D0205DA82339CD5700D33F30 /* ContentView.swift in Sources */,
 				D0205DA62339CD5700D33F30 /* ClockApp.xcdatamodeld in Sources */,
-				D0A48C9A2339D64B008F8636 /* ContentViewController.swift in Sources */,
+				D0A48C9A2339D64B008F8636 /* PlaygroundTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
