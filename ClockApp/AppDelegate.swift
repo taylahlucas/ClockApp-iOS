@@ -13,12 +13,16 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    // https://medium.com/whoknows-swift/swift-the-hierarchy-of-uinavigationcontroller-programmatically-91631990f495
+    var navigationController: UINavigationController?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = ContentViewController()
+        navigationController = UINavigationController(rootViewController: AddAlarmViewController())
+        window?.rootViewController = navigationController
+        //window?.rootViewController = ContentViewController()
         window?.makeKeyAndVisible()
         
         return true

@@ -64,7 +64,6 @@ class ContentViewController: UIViewController {
     // MARK: - Layout
     
     private func setupLayout() {
-        //
         //view.safeAreaInsets
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
