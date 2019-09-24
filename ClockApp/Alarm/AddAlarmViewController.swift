@@ -14,16 +14,24 @@ class AddAlarmViewController: UIViewController {
     private let navBar: UINavigationBar = {
         let nav: UINavigationBar = UINavigationBar()
         nav.translatesAutoresizingMaskIntoConstraints = false
-        nav.backgroundColor = UIColor.red
         
         return nav
     }()
     
+    // Time picker
+//    private lazy var timePicker: UIDatePicker = {
+//        let picker: UIDatePicker = UIDatePicker()
+//
+//        picker.datePickerMode = .time
+//
+//        return picker
+//    }
+//
     // Button to add alarm
     private lazy var addAlarmButton: UIButton = {
         let button: UIButton = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = UIColor.blue
+        button.setTitle("Add Alarm", for: .normal)
         button.addTarget(self, action: #selector(addAlarm), for: .touchUpInside)
         
         return button
