@@ -11,15 +11,13 @@
 import UIKit
 import Foundation
 
-enum AlarmTime: String, CaseIterable {
-    case hour
-    case minutes
-    case type
-}
+//enum AlarmTime: String, CaseIterable {
+//    case alarm
+//}
 
 class AddAlarmViewController: UIViewController {
     
-    public var alarms: [AlarmTime] = []
+    public var alarms: [Alarm] = []
 
     // View for entire page
     private let contentView: UIView = {
@@ -30,13 +28,20 @@ class AddAlarmViewController: UIViewController {
         return view
     }()
     
-    // Navigation bar -- make this a seperate controller ???
-//    private let navBar: UINavigationBar = {
-//        let nav: UINavigationBar = UINavigationBar()
-//        nav.translatesAutoresizingMaskIntoConstraints = false
-//
-//        return nav
-//    }()
+    // Back button
+    private let backButton: UIButton = {
+        let button: UIButton = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Back", for: .normal)
+        button.addTarget(self, action: #selector(backToPreviousPage), for: .touchUpInside)
+        button.setTitleColor(UIColor.blue, for: .normal)
+        
+        return button
+    }()
+    
+    @objc func backToPreviousPage() {
+        print("back pressed")
+    }
     
     // Time picker
     private lazy var timePicker: UIDatePicker = {
@@ -98,44 +103,54 @@ class AddAlarmViewController: UIViewController {
             } else if newTime[0] > 12 && newTime[0] <= 23 {
                 newTime[0] -= 12
             }
-        
-            var newAlarm = AlarmTime(newTime[0], newTime[1], type)
             
-            // Store alarm in alarm array
-           // alarms.append(AlarmTime)
+            let newAlarm = Alarm(hour: newTime[0], minute: newTime[1], type: type, active: false)
+            alarms.append(newAlarm)
             
+            //UserDefaults.standard.set(alarms, forKey: "Alarms")
+
             // Store alarm in UserDefaults
-            UserDefaults.standard.setValue(newTime[0], forKey: AlarmTime.hour.rawValue)
-            UserDefaults.standard.setValue(newTime[1], forKey: AlarmTime.minutes.rawValue)
-            UserDefaults.standard.setValue(type, forKey: AlarmTime.type.rawValue)
+            //UserDefaults.standard.setValue(alarms, forKey: AlarmTime.alarm.rawValue)
+            //UserDefaults.standard.set(newAlarm, forKey: "alarm")
+           // UserDefaults.standard.setValue(alarms, forKey: "alarm")
+//            UserDefaults.standard.setValue(newTime[0], forKey: AlarmTime.hour.rawValue)
+//            UserDefaults.standard.setValue(newTime[1], forKey: AlarmTime.minutes.rawValue)
+//            UserDefaults.standard.setValue(type, forKey: AlarmTime.type.rawValue)
         }
     }
     
     // Remove alarm object
     @objc func removeAlarms() {
-        for key in AlarmTime.allCases {
-            UserDefaults.standard.removeObject(forKey: key.rawValue)
-        }
-        print("objects removed")
+        alarms.removeAll()
+//        for key in AlarmTime.allCases {
+//            UserDefaults.standard.removeObject(forKey: key.rawValue)
+//        }
+//        print("objects removed")
+        //let decoded = UserDefaults.standard.data(forKey: "alarms")
+    //    let decodedTeams = NSKeyedUnarchiver.unarchiveObject(with: decoded!) as! [Alarm]
     }
     
     // Show alarm objects
     @objc func showAlarms() {
-        for key in AlarmTime.allCases {
-            print(UserDefaults.standard.string(forKey: key.rawValue))
+        for alarm in alarms {
+            print(alarm)
         }
-        
-        for element in UserDefaults.standard.dictionaryRepresentation() {
-            print(element)
-        }
-
+//        for key in AlarmTime.allCases {
+//            print(UserDefaults.standard.string(forKey: key.rawValue))
+//        }
+//
+//        for element in UserDefaults.standard.dictionaryRepresentation() {
+//            print(element)
+//        }
+        //print(UserDefaults.standard.string(forKey: "alarms"))
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.view.addSubview(contentView)
+        contentView.addSubview(backButton)
         contentView.addSubview(timePicker)
         contentView.addSubview(addAlarmButton)
         contentView.addSubview(removeAlarmsButton)
@@ -145,6 +160,8 @@ class AddAlarmViewController: UIViewController {
     }
     
     private func setupLayout() {
+        
+        // Whole page
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
             contentView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0),
@@ -152,34 +169,39 @@ class AddAlarmViewController: UIViewController {
             contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
         ])
         
+       // Back button
+        NSLayoutConstraint.activate([
+            backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
+            backButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30)
+        ])
+
+
+        // Time picker
         NSLayoutConstraint.activate([
             timePicker.topAnchor.constraint(equalTo: view.topAnchor, constant: 300),
             timePicker.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50),
             timePicker.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50),
             timePicker.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -500)
         ])
-        
-//        NSLayoutConstraint.activate([
-//            addAlarmButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 500),
-//            addAlarmButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 100),
-//            addAlarmButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -100),
-//            addAlarmButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100)
-//        ])
-        
+
+
+        // Add alarm button
         NSLayoutConstraint.activate([
             addAlarmButton.topAnchor.constraint(equalTo: timePicker.topAnchor, constant: 200),
             addAlarmButton.leftAnchor.constraint(equalTo: timePicker.leftAnchor, constant: 0),
             addAlarmButton.rightAnchor.constraint(equalTo: timePicker.rightAnchor, constant: 0),
             addAlarmButton.bottomAnchor.constraint(greaterThanOrEqualTo: timePicker.bottomAnchor, constant: 0)
         ])
-        
+
+        // Remove alarm button
         NSLayoutConstraint.activate([
             removeAlarmsButton.topAnchor.constraint(equalTo: timePicker.topAnchor, constant: 300),
             removeAlarmsButton.leftAnchor.constraint(equalTo: timePicker.leftAnchor, constant: 0),
             removeAlarmsButton.rightAnchor.constraint(equalTo: timePicker.rightAnchor, constant: 0),
             removeAlarmsButton.bottomAnchor.constraint(greaterThanOrEqualTo: timePicker.bottomAnchor, constant: 0)
         ])
-        
+
+        // Show alarm button
         NSLayoutConstraint.activate([
             showAlarmsButton.topAnchor.constraint(equalTo: timePicker.topAnchor, constant: 400),
             showAlarmsButton.leftAnchor.constraint(equalTo: timePicker.leftAnchor, constant: 0),
