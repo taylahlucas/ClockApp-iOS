@@ -15,13 +15,11 @@ class AlarmTableViewController: UITableViewController {
             let nav: UINavigationBar = UINavigationBar()
             nav.translatesAutoresizingMaskIntoConstraints = false
             
-    
             return nav
         }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -95,5 +93,4 @@ class AlarmTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
 }

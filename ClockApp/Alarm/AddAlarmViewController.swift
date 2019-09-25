@@ -41,6 +41,7 @@ class AddAlarmViewController: UIViewController {
     
     @objc func backToPreviousPage() {
         print("back pressed")
+        //self.present(TestViewController, animated: true, completion: nil)
     }
     
     // Time picker
