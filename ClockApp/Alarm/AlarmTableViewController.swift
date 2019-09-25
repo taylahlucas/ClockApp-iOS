@@ -9,6 +9,15 @@
 import UIKit
 
 class AlarmTableViewController: UITableViewController {
+    
+        // Navigation bar
+        private let navBar: UINavigationBar = {
+            let nav: UINavigationBar = UINavigationBar()
+            nav.translatesAutoresizingMaskIntoConstraints = false
+            
+    
+            return nav
+        }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
