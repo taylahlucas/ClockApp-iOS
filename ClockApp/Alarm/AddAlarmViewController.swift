@@ -105,23 +105,13 @@ class AddAlarmViewController: UIViewController {
                 newTime[0] -= 12
             }
             
+            // Create alarm and add to UserDefaults
             let newAlarm = Alarm(hour: newTime[0], minute: newTime[1], type: type, active: false)
-            
             alarms.append(newAlarm)
             do {
                 let encodeData = try JSONEncoder().encode(alarms)
                 UserDefaults.standard.set(encodeData, forKey: "alarms")
             } catch { print(error) }
-            
-           // UserDefaults.standard.set(allAlarms, forKey: "Alarms")
-
-            // Store alarm in UserDefaults
-            //UserDefaults.standard.setValue(alarms, forKey: AlarmTime.alarm.rawValue)
-            //UserDefaults.standard.set(newAlarm, forKey: "alarm")
-           // UserDefaults.standard.setValue(alarms, forKey: "alarm")
-//            UserDefaults.standard.setValue(newTime[0], forKey: AlarmTime.hour.rawValue)
-//            UserDefaults.standard.setValue(newTime[1], forKey: AlarmTime.minutes.rawValue)
-//            UserDefaults.standard.setValue(type, forKey: AlarmTime.type.rawValue)
         }
     }
     
