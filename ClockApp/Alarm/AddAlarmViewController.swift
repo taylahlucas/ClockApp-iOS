@@ -106,9 +106,14 @@ class AddAlarmViewController: UIViewController {
             }
             
             let newAlarm = Alarm(hour: newTime[0], minute: newTime[1], type: type, active: false)
-            alarms.append(newAlarm)
             
-            //UserDefaults.standard.set(alarms, forKey: "Alarms")
+            alarms.append(newAlarm)
+            do {
+                let encodeData = try JSONEncoder().encode(alarms)
+                UserDefaults.standard.set(encodeData, forKey: "alarms")
+            } catch { print(error) }
+            
+           // UserDefaults.standard.set(allAlarms, forKey: "Alarms")
 
             // Store alarm in UserDefaults
             //UserDefaults.standard.setValue(alarms, forKey: AlarmTime.alarm.rawValue)
@@ -120,30 +125,24 @@ class AddAlarmViewController: UIViewController {
         }
     }
     
-    // Remove alarm object
+    // Remove all alarms
     @objc func removeAlarms() {
         alarms.removeAll()
-//        for key in AlarmTime.allCases {
-//            UserDefaults.standard.removeObject(forKey: key.rawValue)
-//        }
-//        print("objects removed")
-        //let decoded = UserDefaults.standard.data(forKey: "alarms")
-    //    let decodedTeams = NSKeyedUnarchiver.unarchiveObject(with: decoded!) as! [Alarm]
+        UserDefaults.standard.set(alarms, forKey: "alarms")
     }
     
     // Show alarm objects
     @objc func showAlarms() {
-        for alarm in alarms {
-            print(alarm)
-        }
+//        for alarm in alarms {
+//            print(alarm)
+//        }
 //        for key in AlarmTime.allCases {
 //            print(UserDefaults.standard.string(forKey: key.rawValue))
 //        }
 //
-//        for element in UserDefaults.standard.dictionaryRepresentation() {
-//            print(element)
-//        }
-        //print(UserDefaults.standard.string(forKey: "alarms"))
+        for element in UserDefaults.standard.dictionaryRepresentation() {
+            print(element)
+        }
     }
     
     
