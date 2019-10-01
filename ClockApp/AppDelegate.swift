@@ -22,8 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         //navigationController = UINavigationController(rootViewController: AddAlarmViewController())
         //window?.rootViewController = navigationController
-        window?.rootViewController = ShowAlarmsViewController()
-        //window?.rootViewController = AddAlarmViewController()
+        //window?.rootViewController = ShowAlarmsViewController()
+        window?.rootViewController = AddAlarmViewController()
         window?.makeKeyAndVisible()
 
         return true
