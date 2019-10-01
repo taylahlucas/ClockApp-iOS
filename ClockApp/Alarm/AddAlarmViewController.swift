@@ -105,9 +105,8 @@ class AddAlarmViewController: UIViewController {
     // Remove all alarms
     @objc func removeAlarms() {
         alarms.removeAll()
-        UserDefaults.standard.set(alarms, forKey: "alarms")
+        UserDefaults.standard.removeObject(forKey: "alarms")
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()

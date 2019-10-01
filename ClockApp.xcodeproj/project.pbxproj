@@ -8,9 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D0205DA12339CD5700D33F30 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0205DA02339CD5700D33F30 /* AppDelegate.swift */; };
-		D0205DA32339CD5700D33F30 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0205DA22339CD5700D33F30 /* SceneDelegate.swift */; };
 		D0205DA62339CD5700D33F30 /* ClockApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D0205DA42339CD5700D33F30 /* ClockApp.xcdatamodeld */; };
-		D0205DA82339CD5700D33F30 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0205DA72339CD5700D33F30 /* ContentView.swift */; };
 		D0205DAA2339CD5800D33F30 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0205DA92339CD5800D33F30 /* Assets.xcassets */; };
 		D0205DAD2339CD5800D33F30 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0205DAC2339CD5800D33F30 /* Preview Assets.xcassets */; };
 		D0205DBB2339CD5800D33F30 /* ClockAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0205DBA2339CD5800D33F30 /* ClockAppTests.swift */; };
@@ -44,9 +42,7 @@
 /* Begin PBXFileReference section */
 		D0205D9D2339CD5700D33F30 /* ClockApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClockApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0205DA02339CD5700D33F30 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D0205DA22339CD5700D33F30 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		D0205DA52339CD5700D33F30 /* ClockApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClockApp.xcdatamodel; sourceTree = "<group>"; };
-		D0205DA72339CD5700D33F30 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D0205DA92339CD5800D33F30 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D0205DAC2339CD5800D33F30 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D0205DB12339CD5800D33F30 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -115,8 +111,6 @@
 			children = (
 				D0205DDA2339D01700D33F30 /* Alarm */,
 				D0205DA02339CD5700D33F30 /* AppDelegate.swift */,
-				D0205DA22339CD5700D33F30 /* SceneDelegate.swift */,
-				D0205DA72339CD5700D33F30 /* ContentView.swift */,
 				D0A48C992339D64B008F8636 /* PlaygroundTest.swift */,
 				D0205DA92339CD5800D33F30 /* Assets.xcassets */,
 				D0205DB12339CD5800D33F30 /* Info.plist */,
@@ -299,8 +293,6 @@
 				D0205DA12339CD5700D33F30 /* AppDelegate.swift in Sources */,
 				D0205DDC2339D02900D33F30 /* AlarmTableViewController.swift in Sources */,
 				D09A2BE2233B1AD700875DD6 /* Alarm.swift in Sources */,
-				D0205DA32339CD5700D33F30 /* SceneDelegate.swift in Sources */,
-				D0205DA82339CD5700D33F30 /* ContentView.swift in Sources */,
 				D0205DA62339CD5700D33F30 /* ClockApp.xcdatamodeld in Sources */,
 				D0C0719F2342DB9B005F74D4 /* AlarmTableViewCell.swift in Sources */,
 				D09A2BEC233B446000875DD6 /* TestViewController.swift in Sources */,
