@@ -44,7 +44,6 @@ class AlarmTableViewCell: UITableViewCell {
     }
     
     func setupLayout() {
-        // TO DO-- need to centerY UIswitch
         NSLayoutConstraint.activate([
             timeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             timeLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20),
