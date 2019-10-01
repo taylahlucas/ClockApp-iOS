@@ -115,10 +115,19 @@ class AddAlarmViewController: UIViewController {
         }
     }
     
+<<<<<<< Updated upstream
+=======
+        // Back to 'show alarms' page
+        @objc func showAlarms() {
+
+        }
+    
+>>>>>>> Stashed changes
     // Remove all alarms
     @objc func removeAlarms() {
         alarms.removeAll()
-        UserDefaults.standard.set(alarms, forKey: "alarms")
+        //UserDefaults.standard.set(alarms, forKey: "alarms")
+        UserDefaults.standard.removeObject(forKey: "alarms")
     }
     
     // Show alarm objects

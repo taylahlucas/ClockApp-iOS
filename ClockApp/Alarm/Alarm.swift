@@ -8,10 +8,6 @@
 
 import UIKit
 
-struct Alarms: Codable {
-    var alarms: [Alarm]
-}
-
 struct Alarm: Codable {
     var hour: Int
     var minute: Int
