@@ -86,7 +86,9 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         let alarm = allAlarms[indexPath.row]
         let title = String(alarm.hour) + ":" + String(alarm.minute) + " " + alarm.type
 
-        let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath) as! AlarmTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath) as? AlarmTableViewCell else {
+            return UITableViewCell()
+        }
 
         let alarmCell = AlarmCell(timeLabel: title, activate: false)
         cell.updateCell(with: alarmCell)
