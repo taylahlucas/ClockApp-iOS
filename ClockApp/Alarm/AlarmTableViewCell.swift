@@ -22,7 +22,7 @@ class AlarmTableViewCell: UITableViewCell {
     }()
    
     // Defines alarm cell switch
-    public let activateSwitch: UISwitch = {
+    public let activateAlarmSwitch: UISwitch = {
         let swi = UISwitch()
         swi.translatesAutoresizingMaskIntoConstraints = false
         swi.addTarget(self, action: #selector(activateAlarm), for: .touchUpInside)
@@ -38,34 +38,33 @@ class AlarmTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         self.contentView.addSubview(timeLabel)
-        self.contentView.addSubview(activateSwitch)
+        self.contentView.addSubview(activateAlarmSwitch)
         
         setupLayout()
     }
     
     func setupLayout() {
-        // TO DO-- need to centerY UIswitch
         NSLayoutConstraint.activate([
             timeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             timeLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20),
             timeLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -40),
             timeLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            activateSwitch.rightAnchor.constraint(equalTo: rightAnchor, constant: -20),
-            activateSwitch.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            activateAlarmSwitch.rightAnchor.constraint(equalTo: rightAnchor, constant: -20),
+            activateAlarmSwitch.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
 
     // Set alarm on or off
     @objc func activateAlarm(sender: UISwitch!) {
         if (sender.isOn) {
-            print("on")         // TO DO - local notifications
+
         }
     }
     
     // Update cell value
     public func updateCell(with data: AlarmCell) {
         self.timeLabel.text = data.timeLabel
-        self.activateSwitch.isOn = data.activate
+        self.activateAlarmSwitch.isOn = data.activate
     }
 
 }
