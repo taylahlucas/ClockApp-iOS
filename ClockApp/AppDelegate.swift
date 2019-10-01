@@ -22,10 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         //navigationController = UINavigationController(rootViewController: AddAlarmViewController())
         //window?.rootViewController = navigationController
-<<<<<<< Updated upstream
-=======
-        //window?.rootViewController = ShowAlarmsViewController()
->>>>>>> Stashed changes
         window?.rootViewController = AddAlarmViewController()
         window?.makeKeyAndVisible()
 
