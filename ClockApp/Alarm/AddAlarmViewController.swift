@@ -93,7 +93,7 @@ class AddAlarmViewController: UIViewController {
     
         // Show alarm objects
         @objc func showAlarms() {
-
+            self.navigationController?.popToRootViewController(animated: true)
         }
     
     // Remove all alarms

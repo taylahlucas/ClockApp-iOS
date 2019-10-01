@@ -62,7 +62,7 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     
     // Present add alarm page
     @objc func addAlarm() {
-        // TO DO -- change to push/pop instead of present
+        self.navigationController?.pushViewController(AddAlarmViewController(), animated: true)
     }
     
     // Read alarms stored in UserDefaults

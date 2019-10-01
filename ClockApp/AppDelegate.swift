@@ -14,16 +14,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     // https://medium.com/whoknows-swift/swift-the-hierarchy-of-uinavigationcontroller-programmatically-91631990f495
-    //var navigationController: UINavigationController?
+    var navigationController: UINavigationController?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
         window = UIWindow(frame: UIScreen.main.bounds)
-        //navigationController = UINavigationController(rootViewController: AddAlarmViewController())
-        //window?.rootViewController = navigationController
-        window?.rootViewController = ShowAlarmsViewController()
-        //window?.rootViewController = AddAlarmViewController()
+        navigationController = UINavigationController(rootViewController: ShowAlarmsViewController())
+        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
 
         return true
