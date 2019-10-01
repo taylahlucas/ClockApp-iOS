@@ -8,6 +8,11 @@
 
 import UIKit
 
+struct AlarmCell {
+    var timeLabel: String
+    var activate: Bool
+}
+
 struct Alarms: Codable {
     var alarms: [Alarm]
 }
