@@ -11,12 +11,6 @@ import UIKit
 
 class AlarmTableViewCell: UITableViewCell {
 
-    // Sets the values for the alarm cell
-    var alarm: AlarmCell? {
-        didSet {
-            timeLabel.text = alarm?.timeLabel
-        }
-    }
     // Defines alarm cell time
     private let timeLabel: UILabel = {
         let label = UILabel()
@@ -27,14 +21,13 @@ class AlarmTableViewCell: UITableViewCell {
         return label
     }()
    
-    // Defines alarm cell button
-    public let activateButton: UISwitch = {
-        let button = UISwitch()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = UIColor.green
-        button.addTarget(self, action: #selector(activateAlarm), for: .touchUpInside)
+    // Defines alarm cell switch
+    public let activateSwitch: UISwitch = {
+        let swi = UISwitch()
+        swi.translatesAutoresizingMaskIntoConstraints = false
+        swi.addTarget(self, action: #selector(activateAlarm), for: .touchUpInside)
         
-        return button
+        return swi
     }()
     
     required init?(coder: NSCoder) {
@@ -43,33 +36,36 @@ class AlarmTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
         self.contentView.addSubview(timeLabel)
+        self.contentView.addSubview(activateSwitch)
         
         setupLayout()
     }
     
     func setupLayout() {
+        // TO DO-- need to centerY UIswitch
         NSLayoutConstraint.activate([
             timeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            timeLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10),
-            timeLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10),
+            timeLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20),
+            timeLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -40),
             timeLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            timeLabel.widthAnchor.constraint(equalToConstant: frame.size.width/2),
-//            timeLabel.heightAnchor.constraint(equalToConstant: 0)
-//            activateButton.topAnchor.constraint(equalTo: topAnchor, constant: 0),
-//            activateButton.leftAnchor.constraint(equalTo: leftAnchor, constant: 0),
-//            activateButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -10),
-//            activateButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
+            activateSwitch.rightAnchor.constraint(equalTo: rightAnchor, constant: -20),
+            activateSwitch.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
 
+    // Set alarm on or off
     @objc func activateAlarm(sender: UISwitch!) {
-        sender.isOn
+        if (sender.isOn) {
+            print("on")         // TO DO - local notifications
+        }
     }
     
+    // Update cell value
     public func updateCell(with data: AlarmCell) {
         self.timeLabel.text = data.timeLabel
-        
+        self.activateSwitch.isOn = data.activate
     }
 
 }

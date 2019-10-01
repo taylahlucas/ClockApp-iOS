@@ -93,19 +93,16 @@ class AddAlarmViewController: UIViewController {
     
         // Show alarm objects
         @objc func showAlarms() {
-            //self.present(ShowAlarmsViewController(), animated: true, completion: nil)
-            //.push(ShowAlarmsViewController(), animated: true, completion: nil)
-           // self.view.push
-    //        self.present(ShowAlarmsViewController as ViewController, animated: true, completion: nil)
-    //        for element in UserDefaults.standard.dictionaryRepresentation() {
-    //            print(element)
-    //        }
+
         }
     
     // Remove all alarms
     @objc func removeAlarms() {
         alarms.removeAll()
-        UserDefaults.standard.removeObject(forKey: "alarms")
+        UserDefaults.standard.set(alarms.count, forKey: "alarmCount")
+        /* DECISION -- Decided I want to keep an "alarms" in UserDefaults at all times as
+         other view controllers access it */
+        UserDefaults.standard.set(alarms, forKey: "alarms")
     }
     
     override func viewDidLoad() {
@@ -126,10 +123,8 @@ class AddAlarmViewController: UIViewController {
         NSLayoutConstraint.activate([
             backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
             backButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30),
-            timePicker.topAnchor.constraint(equalTo: view.topAnchor, constant: 300),
-            timePicker.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50),
-            timePicker.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50),
-            timePicker.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -500),
+            timePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            timePicker.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
             addAlarmButton.topAnchor.constraint(equalTo: timePicker.topAnchor, constant: 200),
             addAlarmButton.leftAnchor.constraint(equalTo: timePicker.leftAnchor, constant: 0),
             addAlarmButton.rightAnchor.constraint(equalTo: timePicker.rightAnchor, constant: 0),
