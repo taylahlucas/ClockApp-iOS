@@ -42,8 +42,10 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         self.view.addSubview(addAlarmButton)
         self.view.addSubview(alarmsTable)
         
-        
         setupLayout()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         readAlarms()
     }
     
@@ -67,10 +69,11 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     
     // Read alarms stored in UserDefaults
     func readAlarms() {
-        if let alarmData = UserDefaults.standard.object(forKey: "alarms") as? Data {
+        if let alarmData = UserDefaults.standard.object(forKey: AlarmKey.alarms.rawValue) as? Data {
             let decoder = JSONDecoder()
             if let alarms = try? decoder.decode([Alarm].self, from: alarmData) {
                 allAlarms = alarms
+                alarmsTable.reloadData()
             }
         }
     }
@@ -78,7 +81,7 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     /* TABLE FUNCTIONS */
     // Number of rows in section -- number of alarms
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return UserDefaults.standard.integer(forKey: "alarmCount")
+        return UserDefaults.standard.integer(forKey: AlarmKey.alarmCount.rawValue)
     }
     
     // Return contents of each cell

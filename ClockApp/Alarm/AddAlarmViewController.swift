@@ -54,16 +54,22 @@ class AddAlarmViewController: UIViewController {
                 newTime[0] -= 12
             }
             
+            
             // Create alarm and add to UserDefaults
             let newAlarm = Alarm(hour: newTime[0], minute: newTime[1], type: type, active: false)
-            alarms.append(newAlarm)
+
+            // Create copy of array and add new alarm, then save
+            var instanceArray: [Alarm] = alarms
+            instanceArray.append(newAlarm)
+            alarms = instanceArray
+            
             do {
-                let encodeData = try JSONEncoder().encode(alarms)
+                let encodeData = try JSONEncoder().encode(instanceArray)
                 UserDefaults.standard.set(encodeData, forKey: AlarmKey.alarms.rawValue)
             } catch { print(error) }
             
             // Store alarm count
-            let alarmCount: Int = alarms.count
+            let alarmCount: Int = instanceArray.count
             UserDefaults.standard.set(alarmCount, forKey: AlarmKey.alarmCount.rawValue)
             
             // Navigate back to show alarms page upon completion
@@ -79,6 +85,16 @@ class AddAlarmViewController: UIViewController {
         view.addSubview(addAlarmButton)
         
         setupLayout()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        // Read alarms from user defaults
+        if let alarmData = UserDefaults.standard.object(forKey: AlarmKey.alarms.rawValue) as? Data {
+            let decoder = JSONDecoder()
+            if let allAlarms = try? decoder.decode([Alarm].self, from: alarmData) {
+                alarms = allAlarms
+            }
+        }
     }
     
     private func setupLayout() {
