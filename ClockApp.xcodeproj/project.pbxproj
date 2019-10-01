@@ -13,11 +13,11 @@
 		D0205DAD2339CD5800D33F30 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0205DAC2339CD5800D33F30 /* Preview Assets.xcassets */; };
 		D0205DBB2339CD5800D33F30 /* ClockAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0205DBA2339CD5800D33F30 /* ClockAppTests.swift */; };
 		D0205DC62339CD5800D33F30 /* ClockAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0205DC52339CD5800D33F30 /* ClockAppUITests.swift */; };
-		D0205DDC2339D02900D33F30 /* AlarmTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0205DDB2339D02900D33F30 /* AlarmTableViewController.swift */; };
 		D09A2BE2233B1AD700875DD6 /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09A2BE1233B1AD700875DD6 /* Alarm.swift */; };
-		D09A2BEC233B446000875DD6 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09A2BEB233B446000875DD6 /* TestViewController.swift */; };
 		D0A48C982339D08D008F8636 /* AddAlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A48C972339D08D008F8636 /* AddAlarmViewController.swift */; };
 		D0A48C9A2339D64B008F8636 /* PlaygroundTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A48C992339D64B008F8636 /* PlaygroundTest.swift */; };
+		D0C0719D2342C1B2005F74D4 /* ShowAlarmsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0719C2342C1B2005F74D4 /* ShowAlarmsViewController.swift */; };
+		D0C0719F2342DB9B005F74D4 /* AlarmTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0719E2342DB9B005F74D4 /* AlarmTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,11 +50,11 @@
 		D0205DC12339CD5800D33F30 /* ClockAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClockAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0205DC52339CD5800D33F30 /* ClockAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockAppUITests.swift; sourceTree = "<group>"; };
 		D0205DC72339CD5900D33F30 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D0205DDB2339D02900D33F30 /* AlarmTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmTableViewController.swift; sourceTree = "<group>"; };
 		D09A2BE1233B1AD700875DD6 /* Alarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alarm.swift; sourceTree = "<group>"; };
-		D09A2BEB233B446000875DD6 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		D0A48C972339D08D008F8636 /* AddAlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAlarmViewController.swift; sourceTree = "<group>"; };
 		D0A48C992339D64B008F8636 /* PlaygroundTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundTest.swift; sourceTree = "<group>"; };
+		D0C0719C2342C1B2005F74D4 /* ShowAlarmsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowAlarmsViewController.swift; sourceTree = "<group>"; };
+		D0C0719E2342DB9B005F74D4 /* AlarmTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,10 +145,10 @@
 		D0205DDA2339D01700D33F30 /* Alarm */ = {
 			isa = PBXGroup;
 			children = (
-				D0205DDB2339D02900D33F30 /* AlarmTableViewController.swift */,
 				D0A48C972339D08D008F8636 /* AddAlarmViewController.swift */,
 				D09A2BE1233B1AD700875DD6 /* Alarm.swift */,
-				D09A2BEB233B446000875DD6 /* TestViewController.swift */,
+				D0C0719C2342C1B2005F74D4 /* ShowAlarmsViewController.swift */,
+				D0C0719E2342DB9B005F74D4 /* AlarmTableViewCell.swift */,
 			);
 			path = Alarm;
 			sourceTree = "<group>";
@@ -285,11 +285,11 @@
 			files = (
 				D0A48C982339D08D008F8636 /* AddAlarmViewController.swift in Sources */,
 				D0205DA12339CD5700D33F30 /* AppDelegate.swift in Sources */,
-				D0205DDC2339D02900D33F30 /* AlarmTableViewController.swift in Sources */,
 				D09A2BE2233B1AD700875DD6 /* Alarm.swift in Sources */,
 				D0205DA62339CD5700D33F30 /* ClockApp.xcdatamodeld in Sources */,
-				D09A2BEC233B446000875DD6 /* TestViewController.swift in Sources */,
+				D0C0719F2342DB9B005F74D4 /* AlarmTableViewCell.swift in Sources */,
 				D0A48C9A2339D64B008F8636 /* PlaygroundTest.swift in Sources */,
+				D0C0719D2342C1B2005F74D4 /* ShowAlarmsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

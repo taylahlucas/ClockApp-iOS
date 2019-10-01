@@ -8,9 +8,19 @@
 
 import UIKit
 
+struct AlarmCell: Codable {
+    let timeLabel: String
+    let activate: Bool
+}
+
 struct Alarm: Codable {
-    var hour: Int
-    var minute: Int
-    var type: String
+    let hour: Int
+    let minute: Int
+    let type: String
     var active: Bool
+}
+
+enum AlarmKey: String {
+    case alarms
+    case alarmCount
 }
