@@ -23,6 +23,7 @@ class StopwatchViewController: UIViewController {
         let label: UILabel = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = String(currentTimer.hour)
+        label.textColor = UIColor.black
         
         return label
     }()
@@ -32,6 +33,7 @@ class StopwatchViewController: UIViewController {
         let label: UILabel = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = String(currentTimer.min)
+        label.textColor = UIColor.black
         
         return label
     }()
@@ -41,6 +43,7 @@ class StopwatchViewController: UIViewController {
         let label: UILabel = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = String(currentTimer.sec)
+        label.textColor = UIColor.black
         
         return label
     }()

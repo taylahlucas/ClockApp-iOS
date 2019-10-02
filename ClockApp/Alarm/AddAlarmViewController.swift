@@ -67,12 +67,13 @@ class AddAlarmViewController: UIViewController {
         // Ensure all values have been converted correctly
         if (newTime.count == 2) {
             var type = "PM"
-            if (newTime[0] >= 0 && newTime[0] <= 11) {
+            
+            if (0..<12).contains(newTime[0]) {
                 type = "AM"
-            } else if newTime[0] > 12 && newTime[0] <= 23 {
+            } else {
                 newTime[0] -= 12
             }
-            
+        
             // Create alarm and add to UserDefaults
             let newAlarm = Alarm(hour: newTime[0], minute: newTime[1], type: type, active: false)
             alarms.append(newAlarm)
