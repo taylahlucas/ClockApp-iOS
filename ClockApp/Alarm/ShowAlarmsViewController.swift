@@ -11,6 +11,7 @@ import UIKit
 class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     public var allAlarms: [Alarm] = []
+    public var timer = Timer()
     
     // Alarms table
     private let alarmsTable: UITableView = {
@@ -47,6 +48,7 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     
     override func viewWillAppear(_ animated: Bool) {
         readAlarms()
+        checkTime()
     }
     
     func setupLayout() {
@@ -78,6 +80,23 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
+    func checkTime() {
+        let date = NSDate()
+        let calendar = Calendar.current
+        
+        let hour = calendar.component(Calendar.Component.hour, from: date as Date)
+        let minute = calendar.component(Calendar.Component.minute, from: date as Date)
+        let second = calendar.component(Calendar.Component.second, from: date as Date)
+
+        compareTime(hour: hour, mins: minute, secs: second)
+    }
+    
+    func compareTime(hour: Int, mins: Int, secs: Int) {
+        // Get all alarms that are activated
+        readAlarms()
+        
+    }
+    
     /* TABLE FUNCTIONS */
     // Number of rows in section -- number of alarms
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -93,10 +112,17 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
             return UITableViewCell()
         }
 
-        let alarmCell = AlarmCell(timeLabel: title, activate: false)
+        let alarmCell = AlarmCell(timeLabel: title, activate: cell.getSwitchValue())
         cell.updateCell(with: alarmCell)
 
         return cell
     }
+    
+    // Need to refactor this code so that we know when a value has changed on a cell
+    // This will detect when a cell is being clicked on
+    // TO DO -- figure out how to detect if switch is on in cell
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        
+//    }
     
 }
