@@ -6,6 +6,8 @@
 //  Copyright © 2019 Taylah Lucas. All rights reserved.
 //
 
+// TO DO -- KEEP UPDATING TIMER EVEN IF APPLICATION IS CLOSED
+
 import UIKit
 
 class StopwatchViewController: UIViewController {
@@ -84,7 +86,10 @@ class StopwatchViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        getTimerActive()
+        // IN CURRENT TIMER -> IF TIMER IS ACTIVE IN USERDEFAULTS, ADD TIMESTAMP
         getCurrentTimer()
+        checkTimer()
         updateUI()
     }
     
@@ -111,25 +116,31 @@ class StopwatchViewController: UIViewController {
             startButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -100)
         ])
     }
-    
+
     // Create timer array for stack view
     func createTimerArray() -> [UILabel] {
-    // FIX - Not letting me use colonLabel twice so had to create two seperate variables ??
         timerArray = [hourLabel, colonLabel1, minLabel, colonLabel2, secLabel]
         return timerArray
     }
     
+    // Get bool indicating if timer is active
+    func getTimerActive() {
+        if ((UserDefaults.standard.object(forKey: "timerRunning")) != nil) {
+            let isTimerRunning = UserDefaults.standard.bool(forKey: "timerRunning")
+            timerRunning = isTimerRunning
+        } else {            // Add timerActive to UserDefaults
+            UserDefaults.standard.set(timerRunning, forKey: "timerRunning")
+        }
+    }
+    
+    // Get current timer from UserDefaults or assign initial value
     func getCurrentTimer() {
-        // Get current timer from UserDefaults
         if ((UserDefaults.standard.object(forKey: StopwatchKey.timer.rawValue)) != nil) {
             if let timerData = UserDefaults.standard.object(forKey: StopwatchKey.timer.rawValue) as? Data {
-                print("getting current timer")
                 let decoder = JSONDecoder()
                 if let currTimer = try? decoder.decode(Stopwatch.self, from: timerData) {
                     
-                    
                     initialTimer = currTimer
-                    // Set currentTime to inital Timer or 00
                     currentTimer.hour = Int(currTimer.hour) ?? 00
                     currentTimer.min = Int(currTimer.min) ?? 00
                     currentTimer.sec = Int(currTimer.sec) ?? 00
@@ -154,6 +165,14 @@ class StopwatchViewController: UIViewController {
             timer.invalidate()
         } else {                        // Starting timer
             timerRunning = true
+        }
+        UserDefaults.standard.set(timerRunning, forKey: "timerRunning")
+        checkTimer()
+    }
+    
+    // Check if timer is set to true and increase time
+    func checkTimer() {
+        if (timerRunning) {
             timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(increaseTime), userInfo: timerRunning, repeats: true)
         }
     }
@@ -179,7 +198,6 @@ class StopwatchViewController: UIViewController {
         let updatedTimer = Stopwatch(hour: String(currentTimer.hour), min: String(currentTimer.min), sec: String(currentTimer.sec))
         if ((UserDefaults.standard.object(forKey: StopwatchKey.timer.rawValue)) != nil) {
             do {
-                print("updating timer to: ", updatedTimer)
                 let encodeData = try JSONEncoder().encode(updatedTimer)
                 UserDefaults.standard.set(encodeData, forKey: StopwatchKey.timer.rawValue)
             } catch { print(error) }
