@@ -20,6 +20,7 @@
 		D0C0719F2342DB9B005F74D4 /* AlarmTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0719E2342DB9B005F74D4 /* AlarmTableViewCell.swift */; };
 		D0DAF50D23441272009D0DAD /* StopwatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DAF50C23441272009D0DAD /* StopwatchViewController.swift */; };
 		D0DAF50F234412DB009D0DAD /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DAF50E234412DB009D0DAD /* TabBarController.swift */; };
+		D0DAF51123442A4E009D0DAD /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DAF51023442A4E009D0DAD /* Stopwatch.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		D0C0719E2342DB9B005F74D4 /* AlarmTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmTableViewCell.swift; sourceTree = "<group>"; };
 		D0DAF50C23441272009D0DAD /* StopwatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchViewController.swift; sourceTree = "<group>"; };
 		D0DAF50E234412DB009D0DAD /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		D0DAF51023442A4E009D0DAD /* Stopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stopwatch.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				D0DAF50C23441272009D0DAD /* StopwatchViewController.swift */,
+				D0DAF51023442A4E009D0DAD /* Stopwatch.swift */,
 			);
 			path = Stopwatch;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 				D0205DA62339CD5700D33F30 /* ClockApp.xcdatamodeld in Sources */,
 				D0DAF50D23441272009D0DAD /* StopwatchViewController.swift in Sources */,
 				D0C0719F2342DB9B005F74D4 /* AlarmTableViewCell.swift in Sources */,
+				D0DAF51123442A4E009D0DAD /* Stopwatch.swift in Sources */,
 				D0A48C9A2339D64B008F8636 /* PlaygroundTest.swift in Sources */,
 				D0C0719D2342C1B2005F74D4 /* ShowAlarmsViewController.swift in Sources */,
 			);

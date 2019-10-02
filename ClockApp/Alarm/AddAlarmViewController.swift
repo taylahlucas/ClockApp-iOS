@@ -35,6 +35,25 @@ class AddAlarmViewController: UIViewController {
         return button
     }()
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view.backgroundColor = UIColor.white
+        view.addSubview(timePicker)
+        view.addSubview(addAlarmButton)
+        
+        setupLayout()
+    }
+    
+    private func setupLayout() {
+        NSLayoutConstraint.activate([
+            timePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            timePicker.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
+            addAlarmButton.topAnchor.constraint(equalTo: timePicker.topAnchor, constant: 300),
+            addAlarmButton.centerXAnchor.constraint(equalTo: timePicker.centerXAnchor)
+        ])
+    }
+    
     @objc func addAlarm() {
         // Format time
         let timeFormat = DateFormatter()
@@ -71,22 +90,4 @@ class AddAlarmViewController: UIViewController {
         }
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        view.backgroundColor = UIColor.white
-        view.addSubview(timePicker)
-        view.addSubview(addAlarmButton)
-        
-        setupLayout()
-    }
-    
-    private func setupLayout() {
-        NSLayoutConstraint.activate([
-            timePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            timePicker.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
-            addAlarmButton.topAnchor.constraint(equalTo: timePicker.topAnchor, constant: 300),
-            addAlarmButton.centerXAnchor.constraint(equalTo: timePicker.centerXAnchor)
-        ])
-    }
 }
