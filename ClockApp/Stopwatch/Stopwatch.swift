@@ -18,3 +18,20 @@ struct Stopwatch: Codable {
     let min: String
     let sec: String
 }
+
+class VariableStopwatch {
+    var hour: Int
+    var min: Int
+    var sec: Int
+    
+    init(hour: Int, min: Int, sec: Int) {
+        self.hour = hour
+        self.min = min
+        self.sec = sec
+    }
+    
+    func increaseTime() {
+        
+    }
+
+}
