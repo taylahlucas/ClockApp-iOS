@@ -15,17 +15,6 @@ class AddAlarmViewController: UIViewController {
     
     public var alarms: [Alarm] = []
 
-    // Back button
-    private let backButton: UIButton = {
-        let button: UIButton = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Back", for: .normal)
-        button.addTarget(self, action: #selector(backToShowAlarms), for: .touchUpInside)
-        button.setTitleColor(UIColor.blue, for: .normal)
-        
-        return button
-    }()
-
     // Time picker
     private lazy var timePicker: UIDatePicker = {
         let picker: UIDatePicker = UIDatePicker()
@@ -76,19 +65,16 @@ class AddAlarmViewController: UIViewController {
             // Store alarm count
             let alarmCount: Int = alarms.count
             UserDefaults.standard.set(alarmCount, forKey: AlarmKey.alarmCount.rawValue)
+            
+            // Navigate back to show alarms page upon completion
+            self.navigationController?.popToRootViewController(animated: true)
         }
     }
-    
-    // Show alarm objects
-    @objc func backToShowAlarms() {
 
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor.white
-        view.addSubview(backButton)
         view.addSubview(timePicker)
         view.addSubview(addAlarmButton)
         
@@ -97,8 +83,6 @@ class AddAlarmViewController: UIViewController {
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
-            backButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50),
             timePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             timePicker.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
             addAlarmButton.topAnchor.constraint(equalTo: timePicker.topAnchor, constant: 300),
