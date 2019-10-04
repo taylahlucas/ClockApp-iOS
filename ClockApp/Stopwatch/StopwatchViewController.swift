@@ -19,6 +19,9 @@ class StopwatchViewController: UIViewController {
     public var timerRunning: Bool = false           // Indicates whether timer is running
     public var timer = Timer()
     
+    public var savedTimestamp = String()
+    public var currentTimestamp = String()
+    
 
     // Represents hour of timer
     private lazy var hourLabel: UILabel = {
@@ -87,7 +90,6 @@ class StopwatchViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         getTimerActive()
-        // IN CURRENT TIMER -> IF TIMER IS ACTIVE IN USERDEFAULTS, ADD TIMESTAMP
         getCurrentTimer()
         checkTimer()
         updateUI()
@@ -133,6 +135,18 @@ class StopwatchViewController: UIViewController {
         }
     }
     
+    // Get the current timetamp
+    func getTimestamp() {
+        let date = NSDate()
+        let calendar = Calendar.current
+        
+        let hour = calendar.component(Calendar.Component.hour, from: date as Date)
+        let minute = calendar.component(Calendar.Component.minute, from: date as Date)
+        let second = calendar.component(Calendar.Component.second, from: date as Date)
+
+        currentTimestamp = String(hour) + ":" + String(minute) + ":" + String(second)
+    }
+
     // Get current timer from UserDefaults or assign initial value
     func getCurrentTimer() {
         if ((UserDefaults.standard.object(forKey: StopwatchKey.timer.rawValue)) != nil) {
@@ -165,6 +179,8 @@ class StopwatchViewController: UIViewController {
             timer.invalidate()
         } else {                        // Starting timer
             timerRunning = true
+            getTimestamp()              // Get and set the timestamp for when the start button is tapped
+            UserDefaults.standard.set(currentTimestamp, forKey: "timestamp")
         }
         UserDefaults.standard.set(timerRunning, forKey: "timerRunning")
         checkTimer()
@@ -174,7 +190,49 @@ class StopwatchViewController: UIViewController {
     func checkTimer() {
         if (timerRunning) {
             timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(increaseTime), userInfo: timerRunning, repeats: true)
+
+            // Get timestamp
+            if (UserDefaults.standard.string(forKey: "timestamp") != nil) {
+                savedTimestamp = UserDefaults.standard.string(forKey: "timestamp") ?? "00:00:00"
+                getTimestamp()                      // Gets the current timer
+                recalculateTimer()
+            }
         }
+    }
+    
+    func recalculateTimer() {
+        let currTime = currentTimestamp.components(separatedBy: ":").compactMap {
+            val in Int(val)
+        }
+        let savedTime = savedTimestamp.components(separatedBy: ":").compactMap {
+            val in Int(val)
+        }
+        
+        print("curr: ", currTime, " saved: ", savedTime)
+        
+        var hour: Int = 0
+        var min: Int = 0
+        var sec: Int = 0
+        
+        hour = currTime[0] - savedTime[0]
+        
+        if (currTime[1] > savedTime[1]) {
+            min = currTime[1] - savedTime[1]
+        } else {
+            min = 60 - savedTime[1] + currTime[1]
+        }
+        
+        if (currTime[2] > currTime[2]) {
+            sec = currTime[2] - savedTime[2]
+        } else {
+            sec = 60 - savedTime[2] + currTime[2]
+        }
+        
+        print("hour: ", hour, " min: ", min, " sec: ", sec)
+        
+        let newTime: [Int] = [currTime[0] - savedTime[0], currTime[1] - savedTime[1], currTime[2] - savedTime[2]]
+        
+        print(newTime)
     }
     
     // Starts timer and increases values
