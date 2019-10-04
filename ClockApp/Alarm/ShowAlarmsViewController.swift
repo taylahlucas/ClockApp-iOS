@@ -75,6 +75,19 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
+        
+        
+        // Represents the stack view for UI
+    //    private lazy var stackView: UIStackView = {
+    //        let stackView = UIStackView()
+    //        stackView.translatesAutoresizingMaskIntoConstraints = false
+    //        stackView.axis = .horizontal
+    //        stackView.distribution = .fillEqually
+    //        stackView.alignment = .fill
+    //
+    //        return stackView
+    //    }()
+    
     /* TABLE FUNCTIONS */
     // Number of rows in section -- number of alarms
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
