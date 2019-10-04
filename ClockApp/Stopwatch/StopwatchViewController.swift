@@ -12,6 +12,8 @@ class StopwatchViewController: UIViewController {
     
     public var timerArray = [UILabel]()         // Stores stack view
     public var variableTimer: Date = Date()
+    public var savedTimer: Date = Date()
+    
     public var timer = Timer()
     
     // Represents time running
@@ -19,11 +21,6 @@ class StopwatchViewController: UIViewController {
         return UserDefaults.standard.bool(forKey: "timerRunning")
     }
 
-    // Represents start value of timer
-    private var savedTimer: String {
-        return UserDefaults.standard.string(forKey: StopwatchKey.timer.rawValue) ?? "00:00:00"
-    }
-    
     // Returns current time
     private var currentTime: Date {
         return Date()
@@ -60,13 +57,20 @@ class StopwatchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupLayout()
 
+       // removeObjects()
+        setupLayout()
         checkTimer()
         updateUI()
-        
-        //print(Array(UserDefaults.standard.dictionaryRepresentation()))
+    }
+    
+    // Removes all objects from UserDefaults
+    private func removeObjects() {
+        let defaults = UserDefaults.standard
+        let dictionary = defaults.dictionaryRepresentation()
+        dictionary.keys.forEach {
+            key in defaults.removeObject(forKey: key)
+        }
     }
 
     private func setupLayout() {
@@ -93,8 +97,7 @@ class StopwatchViewController: UIViewController {
             timer.invalidate()
         } else {                        // Starting timer
             UserDefaults.standard.set(true, forKey: "timerRunning")
-            UserDefaults.standard.set(currentTime, forKey: "timestamp")
-            variableTimer = currentTime
+            UserDefaults.standard.set(currentTime, forKey: "savedTimer")
         }
         
         UserDefaults.standard.set(timerRunning, forKey: "timerRunning")
@@ -103,33 +106,27 @@ class StopwatchViewController: UIViewController {
     
     // Check if timer is running
     func checkTimer() {
+        print("timerRunning: ", timerRunning)
+        print("savedTimer: ", savedTimer)
+        print("currentTime: ", currentTime)
+        print("variableTimer: ", variableTimer)
+        
         if (timerRunning) {
             timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(increaseTime), userInfo: timerRunning, repeats: true)
-            
-            recalculateTimer()
         }
-    }
-
-    // Get time difference between two time stamps and reset timer
-    func recalculateTimer() {
-        print("savedTime: ", savedTimer)
-        print("currentTime: ", currentTime)
-        
-        print("timer: ", variableTimer)
-        
-       // let currStamp = dateFormatter.date(from: currentTimestamp)
-      //  let currStamp = Date()
-        
-//        guard let savedStamp = dateFormatter.date(from: savedTimestamp) else
-//        {
-//            return
-//        }
+            
+        //print(Array(UserDefaults.standard.dictionaryRepresentation()))
 //
-//        let timeDifference = currStamp.timeIntervalSince(savedStamp)
-//        let addTime = timeDifference/100
-//        currentTimer.addTimeInterval(addTime)
-        
-//        updateTime()
+//        if (UserDefaults.standard.object(forKey: "savedTimer") != nil) {
+//            if (timerRunning) {
+//                timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(increaseTime), userInfo: timerRunning, repeats: true)
+//            }
+//        } else {                // Set initial timer in UserDefaults
+//            print("setting value initially")
+//            UserDefaults.standard.set(currentTime, forKey: "savedTimer")
+//            UserDefaults.standard.set(timerRunning, forKey: "timerRunning")
+//        }
+
     }
     
     // Starts timer and increases values
@@ -140,11 +137,10 @@ class StopwatchViewController: UIViewController {
 
     // Update timer in user defaults when timer is paused
     func updateTime() {
-        print("variable Timer: ", variableTimer)
         do {
-            let encodeData = try JSONEncoder().encode(variableTimer)
-            UserDefaults.standard.set(encodeData, forKey: StopwatchKey.timer.rawValue)
-        } catch { print(error) }
+            let encodeData = try JSONEncoder().encode(savedTimer)
+            UserDefaults.standard.set(encodeData, forKey: "savedTimer")
+        } catch { (error) }
     }
     
     // Update UI labels to reflect changes in timer
