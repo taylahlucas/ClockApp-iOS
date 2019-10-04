@@ -6,13 +6,12 @@
 //  Copyright © 2019 Taylah Lucas. All rights reserved.
 //
 
-// TO DO -- KEEP UPDATING TIMER EVEN IF APPLICATION IS CLOSED
-
 import UIKit
 
 class StopwatchViewController: UIViewController {
     
     public var timerArray = [UILabel]()         // Stores stack view
+    
     public var initialTimer: Stopwatch = Stopwatch(hour: "00", min: "00", sec: "00")    // Stores value in UserDefaults so it can be accessed again
     public var currentTimer: VariableStopwatch =  VariableStopwatch(hour: 00, min: 00, sec: 00)   // Stores values inbetween starting/stopping timer
     
@@ -22,7 +21,23 @@ class StopwatchViewController: UIViewController {
     public var savedTimestamp = String()
     public var currentTimestamp = String()
     
-
+    
+    // Represents date formatter
+    public let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "hh:mm:ss"
+        formatter.timeZone = TimeZone.current
+        return formatter
+    }()
+    
+    // Represents timer string
+    private lazy var testTimer: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "hh:mm:ss"
+        formatter.timeZone = TimeZone.current
+        return formatter
+    }()
+    
     // Represents hour of timer
     private lazy var hourLabel: UILabel = {
         let label: UILabel = UILabel()
@@ -135,16 +150,10 @@ class StopwatchViewController: UIViewController {
         }
     }
     
-    // Get the current timetamp
+    // Get the current timetamp as string
     func getTimestamp() {
-        let date = NSDate()
-        let calendar = Calendar.current
-        
-        let hour = calendar.component(Calendar.Component.hour, from: date as Date)
-        let minute = calendar.component(Calendar.Component.minute, from: date as Date)
-        let second = calendar.component(Calendar.Component.second, from: date as Date)
-
-        currentTimestamp = String(hour) + ":" + String(minute) + ":" + String(second)
+        let date = Date()
+        currentTimestamp = dateFormatter.string(from: date)
     }
 
     // Get current timer from UserDefaults or assign initial value
@@ -155,6 +164,7 @@ class StopwatchViewController: UIViewController {
                 if let currTimer = try? decoder.decode(Stopwatch.self, from: timerData) {
                     
                     initialTimer = currTimer
+                    
                     currentTimer.hour = Int(currTimer.hour) ?? 00
                     currentTimer.min = Int(currTimer.min) ?? 00
                     currentTimer.sec = Int(currTimer.sec) ?? 00
@@ -200,39 +210,30 @@ class StopwatchViewController: UIViewController {
         }
     }
     
+    func secondsToTime(seconds: Int) -> (Int, Int, Int) {
+        return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
+    }
+    
+    // Get time difference between two time stamps and reset timer
     func recalculateTimer() {
-        let currTime = currentTimestamp.components(separatedBy: ":").compactMap {
-            val in Int(val)
-        }
-        let savedTime = savedTimestamp.components(separatedBy: ":").compactMap {
-            val in Int(val)
-        }
-        
-        print("curr: ", currTime, " saved: ", savedTime)
-        
-        var hour: Int = 0
-        var min: Int = 0
-        var sec: Int = 0
-        
-        hour = currTime[0] - savedTime[0]
-        
-        if (currTime[1] > savedTime[1]) {
-            min = currTime[1] - savedTime[1]
-        } else {
-            min = 60 - savedTime[1] + currTime[1]
+        let currStamp = dateFormatter.date(from: currentTimestamp)
+        guard let savedStamp = dateFormatter.date(from: savedTimestamp) else
+        {
+            return
         }
         
-        if (currTime[2] > currTime[2]) {
-            sec = currTime[2] - savedTime[2]
-        } else {
-            sec = 60 - savedTime[2] + currTime[2]
+        guard let timeDifference = currStamp?.timeIntervalSince(savedStamp) else
+        {
+            return
         }
         
-        print("hour: ", hour, " min: ", min, " sec: ", sec)
         
-        let newTime: [Int] = [currTime[0] - savedTime[0], currTime[1] - savedTime[1], currTime[2] - savedTime[2]]
         
-        print(newTime)
+        //let addToTimer = secondsToTime(seconds: Int(timeDifference))
+        
+        //currStamp?.addTimeInterval(timeDifference)
+        
+        
     }
     
     // Starts timer and increases values
