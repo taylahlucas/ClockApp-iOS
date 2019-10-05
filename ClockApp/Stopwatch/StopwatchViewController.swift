@@ -22,6 +22,7 @@ class StopwatchViewController: UIViewController {
         return UserDefaults.standard.object(forKey: "savedTime") as! Date
     }
     
+    // Represents the changing timer displayed
     public var variableTimer: String = "00:00:00"
     private var variableTime: String {
         return UserDefaults.standard.string(forKey: "variableTime") ?? "00:00:00"
@@ -75,13 +76,12 @@ class StopwatchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        removeObjects()
+//     removeObjects()
 
         setupLayout()
+        initialTime()
         checkTimer()
         updateUI()
-
-//        printObjects()
     }
     
     // Removes all objects from UserDefaults
@@ -92,26 +92,23 @@ class StopwatchViewController: UIViewController {
             key in defaults.removeObject(forKey: key)
         }
     }
-    
-    // Print all objects from UserDefaults
-    private func printObjects() {
-        print(Array(UserDefaults.standard.dictionaryRepresentation()))
-    }
 
     private func setupLayout() {
         view.backgroundColor = UIColor.white
         
         // Add subviews
         view.addSubview(displayTimer)
-        view.addSubview(startButton)
         view.addSubview(resetButton)
+        view.addSubview(startButton)
         
         // Add constraints
         NSLayoutConstraint.activate([
             displayTimer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             displayTimer.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
             startButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            startButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -100)
+            startButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -100),
+            resetButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            resetButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 100)
         ])
     }
 
@@ -123,7 +120,6 @@ class StopwatchViewController: UIViewController {
             timer.invalidate()
         } else {                        // Starting timer
             UserDefaults.standard.set(true, forKey: "timerRunning")
-            // Store current date to compare
             UserDefaults.standard.set(Date(), forKey: "savedTime")
         }
         
@@ -131,36 +127,37 @@ class StopwatchViewController: UIViewController {
         checkTimer()
     }
     
+    // Resets the timer back to 0
     @objc func resetTimer() {
-       // let test = dateFormatter.date(from: "00:00:00")
-        //variableTimer = test ?? <#default value#>
-        //UserDefaults.standard.set("00:00:00", forKey: "savedTimer")
-        
-    }
-    
-    // Time difference between savedTime and currentTime
-    func timeBetween() {
-        let difference = currentTime.timeIntervalSince(savedTime)/100
-        
-        increaseTime(interval: difference)
+        variableTimer = "00:00:00"
+        updateUI()
     }
     
     // Check if timer is running
     func checkTimer() {
         if (timerRunning) {
-            print("savedTime: ", savedTime, " currentTime: ", currentTime)
-            timeBetween()
-        
             timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(increaseTime), userInfo: timerRunning, repeats: true)
         }
     }
     
     // Starts timer and increases values
-    @objc func increaseTime(interval: TimeInterval) {
+    @objc func increaseTime() {
         var date = dateFormatter.date(from: variableTimer)
-        date?.addTimeInterval(interval)
+        date?.addTimeInterval(1)
         variableTimer = dateFormatter.string(from: date!)
         updateUI()
+    }
+    
+    // Set initial time
+    func initialTime() {
+        if (timerRunning) {
+            let difference = currentTime.timeIntervalSince(savedTime)
+            var date = dateFormatter.date(from: variableTimer)
+            date?.addTimeInterval(difference)
+            variableTimer = dateFormatter.string(from: date!)
+        } else {
+            variableTimer = variableTime
+        }
     }
 
     // Update UI labels to reflect changes in timer
