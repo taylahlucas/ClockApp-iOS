@@ -14,18 +14,18 @@ class StopwatchViewController: UIViewController {
     
     // Represents time running
     private var timerRunning: Bool {
-        return UserDefaults.standard.bool(forKey: "timerRunning")
+        return UserDefaults.standard.bool(forKey: StopwatchKey.timerRunning.rawValue)
     }
     
     // Represents start time of the timer
     private var savedTime: Date {
-        return UserDefaults.standard.object(forKey: "savedTime") as! Date
+        return UserDefaults.standard.object(forKey: StopwatchKey.savedTime.rawValue) as! Date
     }
     
     // Represents the changing timer displayed
     public var variableTimer: String = "00:00:00"
     private var variableTime: String {
-        return UserDefaults.standard.string(forKey: "variableTime") ?? "00:00:00"
+        return UserDefaults.standard.string(forKey: StopwatchKey.variableTime.rawValue) ?? "00:00:00"
     }
 
     // Returns current time
@@ -75,9 +75,6 @@ class StopwatchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//     removeObjects()
-
         setupLayout()
         initialTime()
         checkTimer()
@@ -85,13 +82,13 @@ class StopwatchViewController: UIViewController {
     }
     
     // Removes all objects from UserDefaults
-    private func removeObjects() {
-        let defaults = UserDefaults.standard
-        let dictionary = defaults.dictionaryRepresentation()
-        dictionary.keys.forEach {
-            key in defaults.removeObject(forKey: key)
-        }
-    }
+//    private func removeObjects() {
+//        let defaults = UserDefaults.standard
+//        let dictionary = defaults.dictionaryRepresentation()
+//        dictionary.keys.forEach {
+//            key in defaults.removeObject(forKey: key)
+//        }
+//    }
 
     private func setupLayout() {
         view.backgroundColor = UIColor.white
@@ -116,16 +113,16 @@ class StopwatchViewController: UIViewController {
     @objc func startTimer() {
         if (timerRunning) {             // Stopping timer
             startButton.setTitle("START", for: .normal)
-            UserDefaults.standard.set(false, forKey: "timerRunning")
-            UserDefaults.standard.set(variableTimer, forKey: "variableTime")
+            UserDefaults.standard.set(false, forKey: StopwatchKey.timerRunning.rawValue)
+            UserDefaults.standard.set(variableTimer, forKey: StopwatchKey.variableTime.rawValue)
             timer.invalidate()
         } else {                        // Starting timer
             startButton.setTitle("STOP", for: .normal)
-            UserDefaults.standard.set(true, forKey: "timerRunning")
-            UserDefaults.standard.set(Date(), forKey: "savedTime")
+            UserDefaults.standard.set(true, forKey: StopwatchKey.timerRunning.rawValue)
+            UserDefaults.standard.set(Date(), forKey: StopwatchKey.savedTime.rawValue)
         }
         
-        UserDefaults.standard.set(timerRunning, forKey: "timerRunning")
+        UserDefaults.standard.set(timerRunning, forKey: StopwatchKey.timerRunning.rawValue)
         checkTimer()
     }
     
