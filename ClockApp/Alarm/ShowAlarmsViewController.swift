@@ -93,6 +93,7 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
 
         let alarmCell = AlarmCell(timeLabel: title, activate: false)
         cell.updateCell(with: alarmCell)
+        cell.backgroundColor = UIColor.white
 
         return cell
     }
