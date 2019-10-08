@@ -57,19 +57,15 @@ class AddAlarmViewController: UIViewController {
             
             // Create alarm and add to UserDefaults
             let newAlarm = Alarm(hour: newTime[0], minute: newTime[1], type: type, active: false)
-
-            // Create copy of array and add new alarm, then save
-            var instanceArray: [Alarm] = alarms
-            instanceArray.append(newAlarm)
-            alarms = instanceArray
+            alarms.append(newAlarm)
             
             do {
-                let encodeData = try JSONEncoder().encode(instanceArray)
+                let encodeData = try JSONEncoder().encode(alarms)
                 UserDefaults.standard.set(encodeData, forKey: AlarmKey.alarms.rawValue)
             } catch { print(error) }
             
             // Store alarm count
-            let alarmCount: Int = instanceArray.count
+            let alarmCount: Int = alarms.count
             UserDefaults.standard.set(alarmCount, forKey: AlarmKey.alarmCount.rawValue)
             
             // Navigate back to show alarms page upon completion
