@@ -87,6 +87,12 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     //
     //        return stackView
     //    }()
+//
+//    timer.forEach { stackView.addArrangedSubview($0) }
+
+    public var timerRunning: Bool {
+       return UserDefaults.standard.bool(forKey: "timerRunning")
+    }
     
     /* TABLE FUNCTIONS */
     // Number of rows in section -- number of alarms

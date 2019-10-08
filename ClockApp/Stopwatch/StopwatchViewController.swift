@@ -115,10 +115,12 @@ class StopwatchViewController: UIViewController {
     // Sets boolean to trigger timer on and off
     @objc func startTimer() {
         if (timerRunning) {             // Stopping timer
+            startButton.setTitle("START", for: .normal)
             UserDefaults.standard.set(false, forKey: "timerRunning")
             UserDefaults.standard.set(variableTimer, forKey: "variableTime")
             timer.invalidate()
         } else {                        // Starting timer
+            startButton.setTitle("STOP", for: .normal)
             UserDefaults.standard.set(true, forKey: "timerRunning")
             UserDefaults.standard.set(Date(), forKey: "savedTime")
         }
