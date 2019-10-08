@@ -8,9 +8,21 @@
 
 import UIKit
 
-class StopwatchViewController: UIViewController {
+class StopwatchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     public var timer = Timer()
+    
+    
+    // Alarms table
+    private let lapsTable: UITableView = {
+        let table: UITableView = UITableView()
+        table.translatesAutoresizingMaskIntoConstraints = false
+        table.backgroundColor = UIColor.lightGray
+
+        table.register(UITableViewCell.self, forCellReuseIdentifier: "LapCell")
+        
+        return table
+    }()
     
     // Represents time running
     private var timerRunning: Bool {
@@ -26,6 +38,12 @@ class StopwatchViewController: UIViewController {
     public var variableTimer: String = "00:00:00"
     private var variableTime: String {
         return UserDefaults.standard.string(forKey: StopwatchKey.variableTime.rawValue) ?? "00:00:00"
+    }
+    
+    // Represents list of laps
+    public var laps: [String] = []
+    private var savedLaps: [String] {
+        return UserDefaults.standard.stringArray(forKey: StopwatchKey.laps.rawValue) ?? []
     }
 
     // Returns current time
@@ -55,7 +73,6 @@ class StopwatchViewController: UIViewController {
     private lazy var startButton: UIButton = {
         let button: UIButton = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("START", for: .normal)
         button.setTitleColor(UIColor.blue, for: .normal)
         button.addTarget(self, action: #selector(startTimer), for: .touchUpInside)
         
@@ -66,15 +83,18 @@ class StopwatchViewController: UIViewController {
     private lazy var resetButton: UIButton = {
         let button: UIButton = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("RESET", for: .normal)
         button.setTitleColor(UIColor.blue, for: .normal)
-        button.addTarget(self, action: #selector(resetTimer), for: .touchUpInside)
+        button.addTarget(self, action: #selector(resetOrLapTimer), for: .touchUpInside)
         
         return button
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        lapsTable.dataSource = self
+        lapsTable.delegate = self
+        
         setupLayout()
         initialTime()
         checkTimer()
@@ -97,6 +117,7 @@ class StopwatchViewController: UIViewController {
         view.addSubview(displayTimer)
         view.addSubview(resetButton)
         view.addSubview(startButton)
+        view.addSubview(lapsTable)
         
         // Add constraints
         NSLayoutConstraint.activate([
@@ -105,19 +126,25 @@ class StopwatchViewController: UIViewController {
             startButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             startButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -100),
             resetButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            resetButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 100)
+            resetButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 100),
+            lapsTable.topAnchor.constraint(equalTo: startButton.topAnchor, constant: 100),
+            lapsTable.leftAnchor.constraint(equalTo: view.leftAnchor),
+            lapsTable.rightAnchor.constraint(equalTo: view.rightAnchor),
+            lapsTable.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 
     // Sets boolean to trigger timer on and off
     @objc func startTimer() {
         if (timerRunning) {             // Stopping timer
-            startButton.setTitle("START", for: .normal)
+            startButton.setTitle(TimerValues.START.rawValue, for: .normal)
+            resetButton.setTitle(TimerValues.RESET.rawValue, for: .normal)
             UserDefaults.standard.set(false, forKey: StopwatchKey.timerRunning.rawValue)
             UserDefaults.standard.set(variableTimer, forKey: StopwatchKey.variableTime.rawValue)
             timer.invalidate()
         } else {                        // Starting timer
-            startButton.setTitle("STOP", for: .normal)
+            startButton.setTitle(TimerValues.STOP.rawValue, for: .normal)
+            resetButton.setTitle(TimerValues.LAP.rawValue, for: .normal)
             UserDefaults.standard.set(true, forKey: StopwatchKey.timerRunning.rawValue)
             UserDefaults.standard.set(Date(), forKey: StopwatchKey.savedTime.rawValue)
         }
@@ -126,10 +153,18 @@ class StopwatchViewController: UIViewController {
         checkTimer()
     }
     
-    // Resets the timer back to 0
-    @objc func resetTimer() {
-        variableTimer = "00:00:00"
+    // Resets the timer back to 0 or laps the timer
+    @objc func resetOrLapTimer() {
+        if (resetButton.titleLabel?.text == TimerValues.RESET.rawValue) {
+            variableTimer = "00:00:00"
+            laps.removeAll()
+            UserDefaults.standard.set(laps, forKey: StopwatchKey.laps.rawValue)
+        } else {
+            laps.append(variableTimer)
+            UserDefaults.standard.set(laps, forKey: StopwatchKey.laps.rawValue)
+        }
         updateUI()
+        lapsTable.reloadData()
     }
     
     // Check if timer is running
@@ -143,7 +178,7 @@ class StopwatchViewController: UIViewController {
     @objc func increaseTime() {
         var date = dateFormatter.date(from: variableTimer)
         date?.addTimeInterval(1)
-        variableTimer = dateFormatter.string(from: date!)
+        variableTimer = dateFormatter.string(from: date ?? Date())
         updateUI()
     }
     
@@ -153,14 +188,33 @@ class StopwatchViewController: UIViewController {
             let difference = currentTime.timeIntervalSince(savedTime)
             var date = dateFormatter.date(from: variableTimer)
             date?.addTimeInterval(difference)
-            variableTimer = dateFormatter.string(from: date!)
+            variableTimer = dateFormatter.string(from: date ?? Date())
+            
+            startButton.setTitle(TimerValues.STOP.rawValue, for: .normal)
+            resetButton.setTitle(TimerValues.LAP.rawValue, for: .normal)
         } else {
             variableTimer = variableTime
+            
+            startButton.setTitle(TimerValues.START.rawValue, for: .normal)
+            resetButton.setTitle(TimerValues.RESET.rawValue, for: .normal)
         }
+        laps = savedLaps
     }
 
     // Update UI labels to reflect changes in timer
     func updateUI() {
         displayTimer.text = variableTimer
+    }
+
+    /* LAP TABLE */
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return laps.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LapCell", for: indexPath)
+        cell.textLabel?.text = savedLaps[indexPath.row]
+        
+        return cell
     }
 }

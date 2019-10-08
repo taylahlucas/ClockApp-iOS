@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D00A78CB234D37320024CEB4 /* StopwatchKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00A78CA234D37320024CEB4 /* StopwatchKey.swift */; };
+		D00A78CD234D3C650024CEB4 /* TimerValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00A78CC234D3C650024CEB4 /* TimerValues.swift */; };
 		D0205DA12339CD5700D33F30 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0205DA02339CD5700D33F30 /* AppDelegate.swift */; };
 		D0205DA62339CD5700D33F30 /* ClockApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D0205DA42339CD5700D33F30 /* ClockApp.xcdatamodeld */; };
 		D0205DAA2339CD5800D33F30 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0205DA92339CD5800D33F30 /* Assets.xcassets */; };
@@ -42,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		D00A78CA234D37320024CEB4 /* StopwatchKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchKey.swift; sourceTree = "<group>"; };
+		D00A78CC234D3C650024CEB4 /* TimerValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerValues.swift; sourceTree = "<group>"; };
 		D0205D9D2339CD5700D33F30 /* ClockApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClockApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0205DA02339CD5700D33F30 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0205DA52339CD5700D33F30 /* ClockApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClockApp.xcdatamodel; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 			children = (
 				D0DAF50C23441272009D0DAD /* StopwatchViewController.swift */,
 				D00A78CA234D37320024CEB4 /* StopwatchKey.swift */,
+				D00A78CC234D3C650024CEB4 /* TimerValues.swift */,
 			);
 			path = Stopwatch;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 				D0205DA12339CD5700D33F30 /* AppDelegate.swift in Sources */,
 				D09A2BE2233B1AD700875DD6 /* Alarm.swift in Sources */,
 				D00A78CB234D37320024CEB4 /* StopwatchKey.swift in Sources */,
+				D00A78CD234D3C650024CEB4 /* TimerValues.swift in Sources */,
 				D0DAF50F234412DB009D0DAD /* TabBarController.swift in Sources */,
 				D0205DA62339CD5700D33F30 /* ClockApp.xcdatamodeld in Sources */,
 				D0DAF50D23441272009D0DAD /* StopwatchViewController.swift in Sources */,
