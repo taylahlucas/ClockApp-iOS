@@ -213,6 +213,8 @@ class StopwatchViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LapCell", for: indexPath)
+        cell.backgroundColor = UIColor.white
+        cell.textLabel?.textColor = UIColor.black
         cell.textLabel?.text = savedLaps[indexPath.row]
         
         return cell
