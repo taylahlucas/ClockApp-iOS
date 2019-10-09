@@ -6,8 +6,6 @@
 //  Copyright © 2019 Taylah Lucas. All rights reserved.
 //
 
-// STACK VIEW: https://www.raywenderlich.com/2198310-uistackview-tutorial-for-ios-introducing-stack-views
-
 import UIKit
 import Foundation
 

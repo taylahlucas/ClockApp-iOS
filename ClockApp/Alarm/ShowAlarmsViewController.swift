@@ -82,6 +82,7 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
 
+    // Schedule notifications to occur based on switches
     func scheduleNotifications() {
         var notifications: [Notification] = [Notification]()
         
@@ -125,20 +126,19 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let alarm = allAlarms[indexPath.row]
         let time = alarm.time
-        print("time: ", time)
-        
+
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath) as? AlarmTableViewCell else {
             return UITableViewCell()
         }
         
+        // Convert to 12 hour time for label
         var newHour = time.hour
         if (alarm.type == "PM" && newHour != 12) {
             newHour = (time.hour ?? 0) - 12
         }
-
+        // Add 0 to beginning of minute for all values < 10
         var newMin: String = "\(time.minute ?? 0)"
         if (time.minute ?? 0 < 10) {
             newMin = "0" + "\(time.minute ?? 0)"
