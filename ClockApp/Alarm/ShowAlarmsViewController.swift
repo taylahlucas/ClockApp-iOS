@@ -14,14 +14,13 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     public var timer = Timer()
     let manager: LocalNotificationManager = LocalNotificationManager()
     
-    
     public var editAlarms: Bool = false
-   // public var alarmCount: Int =
-    // Number of alarms stored in user defaults
-//    private let alarmCount: Int = {
-//        return UserDefaults.standard.integer(forKey: AlarmKey.alarmCount.rawValue)
-//    }()
     
+    // Number of alarms stored in user defaults
+    private var alarmCount: Int {
+        return UserDefaults.standard.integer(forKey: AlarmKey.alarmCount.rawValue)
+    }
+
     // Alarms table
     private let alarmsTable: UITableView = {
         let table: UITableView = UITableView()
@@ -52,17 +51,6 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         button.setTitleColor(UIColor.blue, for: .normal)
         
         return button
-    }()
-    
-    // Remove alarm button image
-    private let removeAlarmImage: UIView = {
-        let view = UIView()
-        let button = UIButton()
-        
-        button.setImage(UIImage(named: "remove"), for: .normal)
-        view.addSubview(button)
-        
-        return view
     }()
 
     override func viewDidLoad() {
@@ -120,13 +108,19 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     @objc func removeAlarm(_ sender: UIButton) {
         let point = alarmsTable.convert(sender.center, from: sender.superview)
         let indexPath = alarmsTable.indexPathForRow(at: point)
-        
-        print(allAlarms)
-        allAlarms.remove(at: indexPath?.row ?? 0)
 
-        print("alarmCount: ", alarmCount)
+        allAlarms.remove(at: indexPath?.row ?? 0)
         UserDefaults.standard.set(alarmCount-1, forKey: AlarmKey.alarmCount.rawValue)
+        encodeData()
+        
         alarmsTable.reloadData()
+    }
+    
+    func encodeData() {
+        do {
+            let encodeData = try JSONEncoder().encode(allAlarms)
+            UserDefaults.standard.set(encodeData, forKey: AlarmKey.alarms.rawValue)
+        } catch { print(error) }
     }
     
     // Read alarms stored in UserDefaults
@@ -165,11 +159,7 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
             allAlarms[indexPath?.row ?? 0].active = false
         }
 
-        do {
-            let encodeData = try JSONEncoder().encode(allAlarms)
-            UserDefaults.standard.set(encodeData, forKey: AlarmKey.alarms.rawValue)
-        } catch { print(error) }
-        
+        encodeData()
         scheduleNotifications()
     }
     
