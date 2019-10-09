@@ -15,6 +15,8 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     let manager: LocalNotificationManager = LocalNotificationManager()
     
     
+    public var editAlarms: Bool = false
+    
     // Alarms table
     private let alarmsTable: UITableView = {
         let table: UITableView = UITableView()
@@ -36,22 +38,33 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         return button
     }()
     
-    private let removeAlarmButton: UIButton = {
+    // Edit alarms button
+    private let editAlarmButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Edit", for: .normal)
-        button.addTarget(self, action: #selector(removeAlarm), for: .touchUpInside)
+        button.addTarget(self, action: #selector(editAlarm), for: .touchUpInside)
         button.setTitleColor(UIColor.blue, for: .normal)
         
         return button
     }()
+    
+    // Remove alarms image
+    private let removeAlarmImage: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: "remove")
+
+        return view
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         alarmsTable.dataSource = self
         alarmsTable.delegate = self
         alarmsTable.allowsSelection = false
+        
+        self.view.addSubview(editAlarmButton)
         self.view.addSubview(addAlarmButton)
         self.view.addSubview(alarmsTable)
 
@@ -69,6 +82,8 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         view.backgroundColor = UIColor.white
         
         NSLayoutConstraint.activate([
+            editAlarmButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            editAlarmButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 100),
             addAlarmButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
             addAlarmButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50),
             alarmsTable.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
@@ -82,10 +97,11 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     @objc func addAlarm() {
         self.navigationController?.pushViewController(AddAlarmViewController(), animated: true)
     }
-    
+
     // Remove an existing alarm
-    @objc func removeAlarm() {
-        
+    @objc func editAlarm() {
+        editAlarms = true
+        alarmsTable.reloadData()
     }
     
     // Read alarms stored in UserDefaults
@@ -147,9 +163,8 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         let time = alarm.time
 
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath) as? AlarmTableViewCell else {
-            return UITableViewCell()
+          return UITableViewCell()
         }
-        
         // Convert to 12 hour time for label
         var newHour = time.hour
         if (alarm.type == "PM" && newHour != 12) {
@@ -161,19 +176,22 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
             newMin = "0" + "\(time.minute ?? 0)"
         }
         
+        if (editAlarms) {
+            cell.addSubview(removeAlarmImage)
+        }
+        
         cell.textLabel?.text =  "\(newHour ?? 0)" + ":" + newMin + alarm.type
-
         cell.textLabel?.textColor = UIColor.black
         cell.backgroundColor = UIColor.white
         cell.activateAlarmSwitch.addTarget(self, action: #selector(activateAlarm(_:)), for: .touchUpInside)
-        
+      
         // Set initial switch value
         if (alarm.active == true) {
             cell.activateAlarmSwitch.isOn = true
         } else {
             cell.activateAlarmSwitch.isOn = false
         }
- 
+
         return cell
     }
 }
