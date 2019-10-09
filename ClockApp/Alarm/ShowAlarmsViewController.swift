@@ -47,7 +47,7 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
- //       removeObjects()
+  //      removeObjects()
 
         alarmsTable.dataSource = self
         alarmsTable.delegate = self
@@ -137,27 +137,21 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print(allAlarms)
+        
         let alarm = allAlarms[indexPath.row]
-        var hour = alarm.time.hour?.description
-
-//        // Ensure all values have been converted correctly
-//        if (newTime.count == 2) {
-//            var type = "PM"
-//            if (newTime[0] >= 0 && newTime[0] <= 11) {
-//                type = "AM"
-//            } else if newTime[0] > 12 && newTime[0] <= 23 {
-//                newTime[0] -= 12
-//            }
-        var type = "PM"
-      //  if (0..12 Int(hour))
-
+        let time = alarm.time
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath) as? AlarmTableViewCell else {
             return UITableViewCell()
         }
         
-        cell.textLabel?.text = (time.hour?.description ?? "00") + ":" + (time.minute?.description ?? "00")
-        
+        var newHour = time.hour
+        if (alarm.type == "PM" && newHour != 12) {
+            newHour = (time.hour ?? 0) - 12
+        }
+
+        cell.textLabel?.text =  "\(newHour ?? 0)" + ":" + "\(time.minute ?? 0)" + alarm.type
+
         cell.textLabel?.textColor = UIColor.black
         cell.backgroundColor = UIColor.white
         cell.activateAlarmSwitch.addTarget(self, action: #selector(activateAlarm(_:)), for: .touchUpInside)

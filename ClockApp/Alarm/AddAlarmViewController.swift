@@ -39,9 +39,14 @@ class AddAlarmViewController: UIViewController {
     
     @objc func addAlarm() {
         let time = Calendar.current.dateComponents([.hour, .minute], from: self.timePicker.date)
-
+        
+        var type = "PM"
+        if (0..<12).contains(time.hour ?? 0) {
+            type = "AM"
+        }
+        
         // Create alarm and add to UserDefaults
-        let newAlarm = Alarm(time: time, active: false)
+        let newAlarm = Alarm(time: time, type: type, active: false)
         alarms.append(newAlarm)
         
         do {
@@ -55,46 +60,8 @@ class AddAlarmViewController: UIViewController {
 
         // Navigate back to show alarms page upon completion
         self.navigationController?.popToRootViewController(animated: true)
-
     }
     
-//    @objc func addAlarm() {
-//        // Format time
-//        let timeFormat = DateFormatter()
-//        timeFormat.dateFormat = "HH:mm"
-//        let time: [String] = timeFormat.string(from: self.timePicker.date).components(separatedBy: ":")
-//
-//        var newTime = time.compactMap { time in
-//            Int(time)
-//        }
-//
-//        // Ensure all values have been converted correctly
-//        if (newTime.count == 2) {
-//            var type = "PM"
-//            if (newTime[0] >= 0 && newTime[0] <= 11) {
-//                type = "AM"
-//            } else if newTime[0] > 12 && newTime[0] <= 23 {
-//                newTime[0] -= 12
-//            }
-//
-//            // Create alarm and add to UserDefaults
-//            let newAlarm = Alarm(hour: newTime[0], minute: newTime[1], type: type, active: false)
-//            alarms.append(newAlarm)
-//
-//            do {
-//                let encodeData = try JSONEncoder().encode(alarms)
-//                UserDefaults.standard.set(encodeData, forKey: AlarmKey.alarms.rawValue)
-//            } catch { print(error) }
-//
-//            // Store alarm count
-//            let alarmCount: Int = alarms.count
-//            UserDefaults.standard.set(alarmCount, forKey: AlarmKey.alarmCount.rawValue)
-//
-//            // Navigate back to show alarms page upon completion
-//            self.navigationController?.popToRootViewController(animated: true)
-//        }
-//    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
