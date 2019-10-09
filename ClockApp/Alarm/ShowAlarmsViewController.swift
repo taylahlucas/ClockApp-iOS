@@ -16,6 +16,11 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     
     
     public var editAlarms: Bool = false
+   // public var alarmCount: Int =
+    // Number of alarms stored in user defaults
+//    private let alarmCount: Int = {
+//        return UserDefaults.standard.integer(forKey: AlarmKey.alarmCount.rawValue)
+//    }()
     
     // Alarms table
     private let alarmsTable: UITableView = {
@@ -49,11 +54,14 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         return button
     }()
     
-    // Remove alarms image
-    private let removeAlarmImage: UIImageView = {
-        let view = UIImageView()
-        view.image = UIImage(named: "remove")
-
+    // Remove alarm button image
+    private let removeAlarmImage: UIView = {
+        let view = UIView()
+        let button = UIButton()
+        
+        button.setImage(UIImage(named: "remove"), for: .normal)
+        view.addSubview(button)
+        
         return view
     }()
 
@@ -98,9 +106,26 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         self.navigationController?.pushViewController(AddAlarmViewController(), animated: true)
     }
 
-    // Remove an existing alarm
+    // Display remove button on all alarms in table
     @objc func editAlarm() {
-        editAlarms = true
+        if (editAlarms) {
+            editAlarms = false
+        } else {
+            editAlarms = true
+        }
+        alarmsTable.reloadData()
+    }
+    
+    // Remove an individual alarm
+    @objc func removeAlarm(_ sender: UIButton) {
+        let point = alarmsTable.convert(sender.center, from: sender.superview)
+        let indexPath = alarmsTable.indexPathForRow(at: point)
+        
+        print(allAlarms)
+        allAlarms.remove(at: indexPath?.row ?? 0)
+
+        print("alarmCount: ", alarmCount)
+        UserDefaults.standard.set(alarmCount-1, forKey: AlarmKey.alarmCount.rawValue)
         alarmsTable.reloadData()
     }
     
@@ -118,7 +143,6 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     // Schedule notifications to occur based on switches
     func scheduleNotifications() {
         var notifications: [Notification] = [Notification]()
-        
         var i = 0
         for alarm in allAlarms {
             if (alarm.active) {
@@ -176,8 +200,12 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
             newMin = "0" + "\(time.minute ?? 0)"
         }
         
+        // Adds image to remove alarm
         if (editAlarms) {
-            cell.addSubview(removeAlarmImage)
+            cell.removeAlarmButton.setImage(UIImage(named: "remove"), for: .normal)
+            cell.removeAlarmButton.addTarget(self, action: #selector(removeAlarm), for: .touchUpInside)
+        } else {
+            cell.removeAlarmButton.setImage(nil, for: .normal)
         }
         
         cell.textLabel?.text =  "\(newHour ?? 0)" + ":" + newMin + alarm.type
