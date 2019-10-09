@@ -59,6 +59,8 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         readAlarms()
         scheduleNotifications()
     }
