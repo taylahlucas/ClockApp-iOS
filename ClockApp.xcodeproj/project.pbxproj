@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D00A78CF234D4F5F0024CEB4 /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00A78CE234D4F5F0024CEB4 /* LocalNotificationManager.swift */; };
+		D00A78D4234D7CF00024CEB4 /* AlarmKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00A78D3234D7CF00024CEB4 /* AlarmKey.swift */; };
 		D0205DA12339CD5700D33F30 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0205DA02339CD5700D33F30 /* AppDelegate.swift */; };
 		D0205DA62339CD5700D33F30 /* ClockApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D0205DA42339CD5700D33F30 /* ClockApp.xcdatamodeld */; };
 		D0205DAA2339CD5800D33F30 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0205DA92339CD5800D33F30 /* Assets.xcassets */; };
@@ -42,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		D00A78CE234D4F5F0024CEB4 /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
+		D00A78D3234D7CF00024CEB4 /* AlarmKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmKey.swift; sourceTree = "<group>"; };
 		D0205D9D2339CD5700D33F30 /* ClockApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClockApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0205DA02339CD5700D33F30 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0205DA52339CD5700D33F30 /* ClockApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClockApp.xcdatamodel; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 				D09A2BE1233B1AD700875DD6 /* Alarm.swift */,
 				D0C0719C2342C1B2005F74D4 /* ShowAlarmsViewController.swift */,
 				D0C0719E2342DB9B005F74D4 /* AlarmTableViewCell.swift */,
+				D00A78D3234D7CF00024CEB4 /* AlarmKey.swift */,
 			);
 			path = Alarm;
 			sourceTree = "<group>";
@@ -309,6 +312,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0A48C982339D08D008F8636 /* AddAlarmViewController.swift in Sources */,
+				D00A78D4234D7CF00024CEB4 /* AlarmKey.swift in Sources */,
 				D0205DA12339CD5700D33F30 /* AppDelegate.swift in Sources */,
 				D00A78CF234D4F5F0024CEB4 /* LocalNotificationManager.swift in Sources */,
 				D09A2BE2233B1AD700875DD6 /* Alarm.swift in Sources */,

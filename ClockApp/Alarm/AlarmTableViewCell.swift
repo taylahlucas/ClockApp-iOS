@@ -8,6 +8,10 @@
 
 import UIKit
 
+struct AlarmCell: Codable {
+    let timeLabel: String
+    let activate: Bool
+}
 
 class AlarmTableViewCell: UITableViewCell {
     // Defines alarm cell time

@@ -35,20 +35,10 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         
         return button
     }()
-    
-    // Represents date formatter
-    public let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm:ss"
-        formatter.timeZone = TimeZone.current
-        return formatter
-    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-  //      removeObjects()
-
         alarmsTable.dataSource = self
         alarmsTable.delegate = self
         alarmsTable.allowsSelection = false
@@ -60,14 +50,7 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     
     override func viewWillAppear(_ animated: Bool) {
         readAlarms()
-    }
-
-    func removeObjects() {
-        let defaults = UserDefaults.standard
-        let dictionary = defaults.dictionaryRepresentation()
-        dictionary.keys.forEach { key in
-            defaults.removeObject(forKey: key)
-        }
+        scheduleNotifications()
     }
 
     func setupLayout() {
@@ -98,16 +81,21 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
             }
         }
     }
-//
-//    func scheduleNotifications() {
-//       // var notifications = []
-//        for alarm in allAlarms {
-//            if (alarm.active) {
-//                //let notification = Notification(title: "Alarm", dateTime: )
-//            }
-//        }
-//    }
-//
+
+    func scheduleNotifications() {
+        var notifications: [Notification] = [Notification]()
+        
+        var i = 0
+        for alarm in allAlarms {
+            if (alarm.active) {
+                notifications.append(Notification(id: String(i), title: "Alarm", dateTime: alarm.time))
+            }
+            i += 1
+        }
+        manager.notifications = notifications
+        manager.schedule()
+    }
+
     // Activate or deactivate alarm
     @objc func activateAlarm(_ sender: UISwitch!) {
         let point = alarmsTable.convert(sender.center, from: sender.superview)
@@ -118,15 +106,16 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         } else {
             allAlarms[indexPath?.row ?? 0].active = false
         }
-        // Update activate = true/false in allAlarms UserDefaults
+
         do {
             let encodeData = try JSONEncoder().encode(allAlarms)
             UserDefaults.standard.set(encodeData, forKey: AlarmKey.alarms.rawValue)
         } catch { print(error) }
+        
+        scheduleNotifications()
     }
     
     /* TABLE FUNCTIONS */
-    // Number of rows in section -- number of alarms
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return UserDefaults.standard.integer(forKey: AlarmKey.alarmCount.rawValue)
     }
@@ -135,11 +124,11 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         return 44
     }
     
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let alarm = allAlarms[indexPath.row]
         let time = alarm.time
+        print("time: ", time)
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath) as? AlarmTableViewCell else {
             return UITableViewCell()
@@ -150,7 +139,12 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
             newHour = (time.hour ?? 0) - 12
         }
 
-        cell.textLabel?.text =  "\(newHour ?? 0)" + ":" + "\(time.minute ?? 0)" + alarm.type
+        var newMin: String = "\(time.minute ?? 0)"
+        if (time.minute ?? 0 < 10) {
+            newMin = "0" + "\(time.minute ?? 0)"
+        }
+        
+        cell.textLabel?.text =  "\(newHour ?? 0)" + ":" + newMin + alarm.type
 
         cell.textLabel?.textColor = UIColor.black
         cell.backgroundColor = UIColor.white

@@ -8,9 +8,12 @@
 
 import UIKit
 import CoreData
+import UserNotifications
+
+
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
     var navigationController: UINavigationController?
@@ -21,8 +24,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         navigationController = UINavigationController(rootViewController: TabBarController())
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
+        
+
+        // Alarm notifications
+        let center = UNUserNotificationCenter.current()
+        center.delegate = self
+
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound]) {(accepted, error) in
+            if !accepted {
+                print("Notification access denied")
+            }
+        }
 
         return true
+    }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler( [.alert, .badge, .sound])
+    }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        completionHandler()
     }
 
     lazy var persistentContainer: NSPersistentContainer = {

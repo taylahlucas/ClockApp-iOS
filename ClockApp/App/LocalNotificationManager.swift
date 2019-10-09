@@ -50,7 +50,6 @@ class LocalNotificationManager {
                 break
             }
         }
-    
     }
 
     // Iterates over the notifications property to schedule local notifications
@@ -60,14 +59,16 @@ class LocalNotificationManager {
             content.title = notification.title
             content.sound = .default
             
-            let trigger = UNCalendarNotificationTrigger(dateMatching: notification.dateTime, repeats: false)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: notification.dateTime, repeats: true)
             
             let request = UNNotificationRequest(identifier: notification.id, content: content, trigger: trigger)
             
             UNUserNotificationCenter.current().add(request) { error in
                 guard error == nil else { return }
                 
-                print("Notification scheduled! -- ID = \(notification.id)")
+                print("Notification scheduled! -- ID = \(notification.id) dateTime + \(notification.dateTime)")
+                
+                self.listScheduledNotifications()
             }
         }
     }
