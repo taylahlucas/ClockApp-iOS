@@ -15,6 +15,7 @@ struct AlarmCell: Codable {
 
 struct Alarm: Codable {
     let time: DateComponents
+    let type: String
     var active: Bool
 }
 

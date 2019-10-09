@@ -35,21 +35,39 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         
         return button
     }()
+    
+    // Represents date formatter
+    public let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm:ss"
+        formatter.timeZone = TimeZone.current
+        return formatter
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+ //       removeObjects()
 
         alarmsTable.dataSource = self
         alarmsTable.delegate = self
         alarmsTable.allowsSelection = false
         self.view.addSubview(addAlarmButton)
         self.view.addSubview(alarmsTable)
-        
+
         setupLayout()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         readAlarms()
+    }
+
+    func removeObjects() {
+        let defaults = UserDefaults.standard
+        let dictionary = defaults.dictionaryRepresentation()
+        dictionary.keys.forEach { key in
+            defaults.removeObject(forKey: key)
+        }
     }
 
     func setupLayout() {
@@ -80,16 +98,16 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
             }
         }
     }
-    
-    func scheduleNotifications() {
-       // var notifications = []
-        for alarm in allAlarms {
-            if (alarm.active) {
-                //let notification = Notification(title: "Alarm", dateTime: )
-            }
-        }
-    }
-    
+//
+//    func scheduleNotifications() {
+//       // var notifications = []
+//        for alarm in allAlarms {
+//            if (alarm.active) {
+//                //let notification = Notification(title: "Alarm", dateTime: )
+//            }
+//        }
+//    }
+//
     // Activate or deactivate alarm
     @objc func activateAlarm(_ sender: UISwitch!) {
         let point = alarmsTable.convert(sender.center, from: sender.superview)
@@ -119,17 +137,27 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        print(allAlarms)
         let alarm = allAlarms[indexPath.row]
-        
-        let title = alarm.time
-        
-        
-        
+        var hour = alarm.time.hour?.description
+
+//        // Ensure all values have been converted correctly
+//        if (newTime.count == 2) {
+//            var type = "PM"
+//            if (newTime[0] >= 0 && newTime[0] <= 11) {
+//                type = "AM"
+//            } else if newTime[0] > 12 && newTime[0] <= 23 {
+//                newTime[0] -= 12
+//            }
+        var type = "PM"
+      //  if (0..12 Int(hour))
+
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath) as? AlarmTableViewCell else {
             return UITableViewCell()
         }
         
-     //  cell.textLabel?.text =
+        cell.textLabel?.text = (time.hour?.description ?? "00") + ":" + (time.minute?.description ?? "00")
+        
         cell.textLabel?.textColor = UIColor.black
         cell.backgroundColor = UIColor.white
         cell.activateAlarmSwitch.addTarget(self, action: #selector(activateAlarm(_:)), for: .touchUpInside)
