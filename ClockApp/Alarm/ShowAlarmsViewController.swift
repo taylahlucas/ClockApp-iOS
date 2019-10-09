@@ -12,6 +12,8 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     
     public var allAlarms: [Alarm] = []
     public var timer = Timer()
+    let manager: LocalNotificationManager = LocalNotificationManager()
+    
     
     // Alarms table
     private let alarmsTable: UITableView = {
@@ -20,7 +22,6 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         table.backgroundColor = UIColor.lightGray
 
         table.register(AlarmTableViewCell.self, forCellReuseIdentifier: "AlarmCell")
-        
         return table
     }()
     
@@ -40,6 +41,7 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
 
         alarmsTable.dataSource = self
         alarmsTable.delegate = self
+        alarmsTable.allowsSelection = false
         self.view.addSubview(addAlarmButton)
         self.view.addSubview(alarmsTable)
         
@@ -48,9 +50,8 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     
     override func viewWillAppear(_ animated: Bool) {
         readAlarms()
-        checkTime()
     }
-    
+
     func setupLayout() {
         view.backgroundColor = UIColor.white
         
@@ -80,21 +81,30 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
-    func checkTime() {
-        let date = NSDate()
-        let calendar = Calendar.current
-        
-        let hour = calendar.component(Calendar.Component.hour, from: date as Date)
-        let minute = calendar.component(Calendar.Component.minute, from: date as Date)
-        let second = calendar.component(Calendar.Component.second, from: date as Date)
-
-        compareTime(hour: hour, mins: minute, secs: second)
+    func scheduleNotifications() {
+       // var notifications = []
+        for alarm in allAlarms {
+            if (alarm.active) {
+                //let notification = Notification(title: "Alarm", dateTime: )
+            }
+        }
     }
     
-    func compareTime(hour: Int, mins: Int, secs: Int) {
-        // Get all alarms that are activated
-        readAlarms()
+    // Activate or deactivate alarm
+    @objc func activateAlarm(_ sender: UISwitch!) {
+        let point = alarmsTable.convert(sender.center, from: sender.superview)
+        let indexPath = alarmsTable.indexPathForRow(at: point)
         
+        if (sender.isOn) {
+            allAlarms[indexPath?.row ?? 0].active = true
+        } else {
+            allAlarms[indexPath?.row ?? 0].active = false
+        }
+        // Update activate = true/false in allAlarms UserDefaults
+        do {
+            let encodeData = try JSONEncoder().encode(allAlarms)
+            UserDefaults.standard.set(encodeData, forKey: AlarmKey.alarms.rawValue)
+        } catch { print(error) }
     }
     
     /* TABLE FUNCTIONS */
@@ -103,27 +113,34 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         return UserDefaults.standard.integer(forKey: AlarmKey.alarmCount.rawValue)
     }
     
-    // Return contents of each cell
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 44
+    }
+    
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let alarm = allAlarms[indexPath.row]
-        let title = String(alarm.hour) + ":" + String(alarm.minute) + " " + alarm.type
-
+        
+        let title = alarm.time
+        
+        
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath) as? AlarmTableViewCell else {
             return UITableViewCell()
         }
-
-        let alarmCell = AlarmCell(timeLabel: title, activate: cell.getSwitchValue())
-        cell.updateCell(with: alarmCell)
+        
+     //  cell.textLabel?.text =
+        cell.textLabel?.textColor = UIColor.black
         cell.backgroundColor = UIColor.white
-
+        cell.activateAlarmSwitch.addTarget(self, action: #selector(activateAlarm(_:)), for: .touchUpInside)
+        
+        // Set initial switch value
+        if (alarm.active == true) {
+            cell.activateAlarmSwitch.isOn = true
+        } else {
+            cell.activateAlarmSwitch.isOn = false
+        }
+ 
         return cell
     }
-    
-    // Need to refactor this code so that we know when a value has changed on a cell
-    // This will detect when a cell is being clicked on
-    // TO DO -- figure out how to detect if switch is on in cell
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        
-//    }
-    
 }

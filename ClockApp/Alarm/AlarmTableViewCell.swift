@@ -10,9 +10,6 @@ import UIKit
 
 
 class AlarmTableViewCell: UITableViewCell {
-
-    private var switchOn: Bool = false
-    
     // Defines alarm cell time
     private let timeLabel: UILabel = {
         let label = UILabel()
@@ -27,8 +24,7 @@ class AlarmTableViewCell: UITableViewCell {
     public let activateAlarmSwitch: UISwitch = {
         let swi = UISwitch()
         swi.translatesAutoresizingMaskIntoConstraints = false
-        swi.addTarget(self, action: #selector(activateAlarm(_:)), for: .touchUpInside)
-        
+
         return swi
     }()
     
@@ -55,28 +51,4 @@ class AlarmTableViewCell: UITableViewCell {
             activateAlarmSwitch.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
-
-    // Set alarm on or off
-    @objc func activateAlarm(_ sender: UISwitch!) {
-        print("ACTIVITING SWITCH")
-        
-        if (sender.isOn) {
-            switchOn = true
-        } else {
-            switchOn = false
-        }
-    }
-    
-
-    
-    func getSwitchValue() -> Bool {
-        return switchOn
-    }
-    
-    // Update cell value
-    public func updateCell(with data: AlarmCell) {
-        self.timeLabel.text = data.timeLabel
-        self.activateAlarmSwitch.isOn = data.activate
-    }
-
 }
