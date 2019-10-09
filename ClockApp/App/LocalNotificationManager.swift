@@ -65,10 +65,6 @@ class LocalNotificationManager {
             
             UNUserNotificationCenter.current().add(request) { error in
                 guard error == nil else { return }
-                
-                print("Notification scheduled! -- ID = \(notification.id) dateTime + \(notification.dateTime)")
-                
-                self.listScheduledNotifications()
             }
         }
     }
