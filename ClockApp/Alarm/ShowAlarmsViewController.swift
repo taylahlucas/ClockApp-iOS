@@ -29,8 +29,18 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     private let addAlarmButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Add Alarm", for: .normal)
+        button.setTitle("Add", for: .normal)
         button.addTarget(self, action: #selector(addAlarm), for: .touchUpInside)
+        button.setTitleColor(UIColor.blue, for: .normal)
+        
+        return button
+    }()
+    
+    private let removeAlarmButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Edit", for: .normal)
+        button.addTarget(self, action: #selector(removeAlarm), for: .touchUpInside)
         button.setTitleColor(UIColor.blue, for: .normal)
         
         return button
@@ -69,6 +79,11 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     // Present add alarm page
     @objc func addAlarm() {
         self.navigationController?.pushViewController(AddAlarmViewController(), animated: true)
+    }
+    
+    // Remove an existing alarm
+    @objc func removeAlarm() {
+        
     }
     
     // Read alarms stored in UserDefaults
