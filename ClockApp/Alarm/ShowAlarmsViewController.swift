@@ -14,7 +14,13 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     public var timer = Timer()
     let manager: LocalNotificationManager = LocalNotificationManager()
     
-    
+    public var editAlarms: Bool = false
+
+    // Number of alarms stored in user defaults
+    private var alarmCount: Int {
+        return UserDefaults.standard.integer(forKey: AlarmKey.alarmCount.rawValue)
+    }
+
     // Alarms table
     private let alarmsTable: UITableView = {
         let table: UITableView = UITableView()
@@ -29,8 +35,19 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     private let addAlarmButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Add Alarm", for: .normal)
+        button.setTitle("Add", for: .normal)
         button.addTarget(self, action: #selector(addAlarm), for: .touchUpInside)
+        button.setTitleColor(UIColor.blue, for: .normal)
+        
+        return button
+    }()
+    
+    // Edit alarms button
+    private let editAlarmButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Edit", for: .normal)
+        button.addTarget(self, action: #selector(editAlarm), for: .touchUpInside)
         button.setTitleColor(UIColor.blue, for: .normal)
         
         return button
@@ -42,9 +59,11 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         alarmsTable.dataSource = self
         alarmsTable.delegate = self
         alarmsTable.allowsSelection = false
+        
+        self.view.addSubview(editAlarmButton)
         self.view.addSubview(addAlarmButton)
         self.view.addSubview(alarmsTable)
-
+    
         setupLayout()
     }
     
@@ -59,6 +78,8 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         view.backgroundColor = UIColor.white
         
         NSLayoutConstraint.activate([
+            editAlarmButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            editAlarmButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 100),
             addAlarmButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
             addAlarmButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50),
             alarmsTable.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
@@ -71,6 +92,24 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     // Present add alarm page
     @objc func addAlarm() {
         self.navigationController?.pushViewController(AddAlarmViewController(), animated: true)
+    }
+
+    // Display remove button on all alarms in table
+    @objc func editAlarm() {
+        alarmsTable.setEditing(!alarmsTable.isEditing, animated: true)
+        if (alarmsTable.isEditing == true) {
+            editAlarmButton.setTitle("Done", for: .normal)
+        } else {
+            editAlarmButton.setTitle("Edit", for: .normal)
+        }
+    }
+    
+    // Encode alarms array to be stored in UserDefaults
+    func encodeData() {
+        do {
+            let encodeData = try JSONEncoder().encode(allAlarms)
+            UserDefaults.standard.set(encodeData, forKey: AlarmKey.alarms.rawValue)
+        } catch { print(error) }
     }
     
     // Read alarms stored in UserDefaults
@@ -87,7 +126,6 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     // Schedule notifications to occur based on switches
     func scheduleNotifications() {
         var notifications: [Notification] = [Notification]()
-        
         for i in 0...(allAlarms.count - 1) {
             let alarm = allAlarms[i]
             if (alarm.active) {
@@ -104,17 +142,9 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         let point = alarmsTable.convert(sender.center, from: sender.superview)
         let indexPath = alarmsTable.indexPathForRow(at: point)
         
-        if (sender.isOn) {
-            allAlarms[indexPath?.row ?? 0].active = true
-        } else {
-            allAlarms[indexPath?.row ?? 0].active = false
-        }
+        allAlarms[indexPath?.row ?? 0].active = sender.isOn
 
-        do {
-            let encodeData = try JSONEncoder().encode(allAlarms)
-            UserDefaults.standard.set(encodeData, forKey: AlarmKey.alarms.rawValue)
-        } catch { print(error) }
-        
+        encodeData()
         scheduleNotifications()
     }
     
@@ -132,9 +162,8 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         let time = alarm.time
 
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath) as? AlarmTableViewCell else {
-            return UITableViewCell()
+          return UITableViewCell()
         }
-        
         // Convert to 12 hour time for label
         var newHour = time.hour
         if (alarm.type == "PM" && newHour != 12) {
@@ -145,20 +174,22 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         if (time.minute ?? 0 < 10) {
             newMin = "0" + "\(time.minute ?? 0)"
         }
-        
-        cell.textLabel?.text =  "\(newHour ?? 0)" + ":" + newMin + alarm.type
 
+        cell.textLabel?.text =  "\(newHour ?? 0)" + ":" + newMin + alarm.type
         cell.textLabel?.textColor = UIColor.black
         cell.backgroundColor = UIColor.white
         cell.activateAlarmSwitch.addTarget(self, action: #selector(activateAlarm(_:)), for: .touchUpInside)
-        
-        // Set initial switch value
-        if (alarm.active == true) {
-            cell.activateAlarmSwitch.isOn = true
-        } else {
-            cell.activateAlarmSwitch.isOn = false
-        }
- 
+      
+        cell.activateAlarmSwitch.isOn = alarm.active        // Set initial switch value
+
         return cell
+    }
+    
+    // Remove alarm
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        allAlarms.remove(at: indexPath.row)
+        UserDefaults.standard.set(alarmCount-1, forKey: AlarmKey.alarmCount.rawValue)
+        encodeData()
+        alarmsTable.reloadData()
     }
 }

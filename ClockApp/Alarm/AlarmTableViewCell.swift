@@ -32,6 +32,15 @@ class AlarmTableViewCell: UITableViewCell {
         return swi
     }()
     
+    // Repesents button to remove alarm
+    public let removeAlarmButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(nil, for: .normal)
+        
+        return button
+    }()
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -39,6 +48,7 @@ class AlarmTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        self.contentView.addSubview(removeAlarmButton)
         self.contentView.addSubview(timeLabel)
         self.contentView.addSubview(activateAlarmSwitch)
         
@@ -47,6 +57,7 @@ class AlarmTableViewCell: UITableViewCell {
     
     func setupLayout() {
         NSLayoutConstraint.activate([
+            removeAlarmButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             timeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             timeLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20),
             timeLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -40),
