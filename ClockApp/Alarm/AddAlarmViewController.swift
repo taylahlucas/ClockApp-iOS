@@ -35,6 +35,25 @@ class AddAlarmViewController: UIViewController {
         return button
     }()
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view.backgroundColor = UIColor.white
+        view.addSubview(timePicker)
+        view.addSubview(addAlarmButton)
+        
+        setupLayout()
+    }
+    
+    private func setupLayout() {
+        NSLayoutConstraint.activate([
+            timePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            timePicker.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
+            addAlarmButton.topAnchor.constraint(equalTo: timePicker.topAnchor, constant: 300),
+            addAlarmButton.centerXAnchor.constraint(equalTo: timePicker.centerXAnchor)
+        ])
+    }
+    
     @objc func addAlarm() {
         let time = Calendar.current.dateComponents([.hour, .minute], from: self.timePicker.date)
         
@@ -51,41 +70,4 @@ class AddAlarmViewController: UIViewController {
             let encodeData = try JSONEncoder().encode(alarms)
             UserDefaults.standard.set(encodeData, forKey: AlarmKey.alarms.rawValue)
         } catch { print(error) }
-
-        // Store alarm count
-        let alarmCount: Int = alarms.count
-        UserDefaults.standard.set(alarmCount, forKey: AlarmKey.alarmCount.rawValue)
-
-        // Navigate back to show alarms page upon completion
-        self.navigationController?.popToRootViewController(animated: true)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        view.backgroundColor = UIColor.white
-        view.addSubview(timePicker)
-        view.addSubview(addAlarmButton)
-        
-        setupLayout()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        // Read alarms from user defaults
-        if let alarmData = UserDefaults.standard.object(forKey: AlarmKey.alarms.rawValue) as? Data {
-            let decoder = JSONDecoder()
-            if let allAlarms = try? decoder.decode([Alarm].self, from: alarmData) {
-                alarms = allAlarms
-            }
-        }
-    }
-    
-    private func setupLayout() {
-        NSLayoutConstraint.activate([
-            timePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            timePicker.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
-            addAlarmButton.topAnchor.constraint(equalTo: timePicker.topAnchor, constant: 300),
-            addAlarmButton.centerXAnchor.constraint(equalTo: timePicker.centerXAnchor)
-        ])
-    }
 }

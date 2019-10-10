@@ -148,6 +148,10 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         scheduleNotifications()
     }
     
+    public var timerRunning: Bool {
+       return UserDefaults.standard.bool(forKey: "timerRunning")
+    }
+    
     /* TABLE FUNCTIONS */
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return UserDefaults.standard.integer(forKey: AlarmKey.alarmCount.rawValue)
