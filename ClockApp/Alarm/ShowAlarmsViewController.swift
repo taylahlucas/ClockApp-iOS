@@ -55,7 +55,7 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        readAlarms()
+        
         alarmsTable.dataSource = self
         alarmsTable.delegate = self
         alarmsTable.allowsSelection = false
@@ -96,26 +96,15 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
 
     // Display remove button on all alarms in table
     @objc func editAlarm() {
-        if (editAlarms) {
-            editAlarms = false
+        alarmsTable.setEditing(!alarmsTable.isEditing, animated: true)
+        if (alarmsTable.isEditing == true) {
+            editAlarmButton.setTitle("Done", for: .normal)
         } else {
-            editAlarms = true
+            editAlarmButton.setTitle("Edit", for: .normal)
         }
-        alarmsTable.reloadData()
     }
     
-    // Remove an individual alarm
-    @objc func removeAlarm(_ sender: UIButton) {
-        let point = alarmsTable.convert(sender.center, from: sender.superview)
-        let indexPath = alarmsTable.indexPathForRow(at: point)
-
-        allAlarms.remove(at: indexPath?.row ?? 0)
-        UserDefaults.standard.set(alarmCount-1, forKey: AlarmKey.alarmCount.rawValue)
-        encodeData()
-        
-        alarmsTable.reloadData()
-    }
-    
+    // Encode alarms array to be stored in UserDefaults
     func encodeData() {
         do {
             let encodeData = try JSONEncoder().encode(allAlarms)
@@ -185,22 +174,13 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         if (time.minute ?? 0 < 10) {
             newMin = "0" + "\(time.minute ?? 0)"
         }
-        
-        // Adds image to remove alarm
-        if (editAlarms) {
-            cell.removeAlarmButton.setImage(UIImage(named: "remove"), for: .normal)
-            cell.removeAlarmButton.addTarget(self, action: #selector(removeAlarm), for: .touchUpInside)
-        } else {
-            cell.removeAlarmButton.setImage(nil, for: .normal)
-        }
-        
+
         cell.textLabel?.text =  "\(newHour ?? 0)" + ":" + newMin + alarm.type
         cell.textLabel?.textColor = UIColor.black
         cell.backgroundColor = UIColor.white
         cell.activateAlarmSwitch.addTarget(self, action: #selector(activateAlarm(_:)), for: .touchUpInside)
       
-        // Set initial switch value
-        cell.activateAlarmSwitch.isOn = alarm.active
+        cell.activateAlarmSwitch.isOn = alarm.active        // Set initial switch value
 
         return cell
     }
@@ -208,6 +188,8 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     // Remove alarm
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         allAlarms.remove(at: indexPath.row)
+        UserDefaults.standard.set(alarmCount-1, forKey: AlarmKey.alarmCount.rawValue)
+        encodeData()
         alarmsTable.reloadData()
     }
 }
