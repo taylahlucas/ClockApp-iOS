@@ -100,15 +100,6 @@ class StopwatchViewController: UIViewController, UITableViewDelegate, UITableVie
         checkTimer()
         updateUI()
     }
-    
-    // Removes all objects from UserDefaults
-//    private func removeObjects() {
-//        let defaults = UserDefaults.standard
-//        let dictionary = defaults.dictionaryRepresentation()
-//        dictionary.keys.forEach {
-//            key in defaults.removeObject(forKey: key)
-//        }
-//    }
 
     private func setupLayout() {
         view.backgroundColor = UIColor.white

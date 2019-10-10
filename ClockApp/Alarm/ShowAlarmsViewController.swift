@@ -75,21 +75,6 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
     
-        
-        
-        // Represents the stack view for UI
-    //    private lazy var stackView: UIStackView = {
-    //        let stackView = UIStackView()
-    //        stackView.translatesAutoresizingMaskIntoConstraints = false
-    //        stackView.axis = .horizontal
-    //        stackView.distribution = .fillEqually
-    //        stackView.alignment = .fill
-    //
-    //        return stackView
-    //    }()
-//
-//    timer.forEach { stackView.addArrangedSubview($0) }
-
     public var timerRunning: Bool {
        return UserDefaults.standard.bool(forKey: "timerRunning")
     }
