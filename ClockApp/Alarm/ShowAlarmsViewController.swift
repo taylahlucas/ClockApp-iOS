@@ -126,13 +126,13 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     // Schedule notifications to occur based on switches
     func scheduleNotifications() {
         var notifications: [Notification] = [Notification]()
-        var i = 0
-        for alarm in allAlarms {
+        for i in 0...(allAlarms.count - 1) {
+            let alarm = allAlarms[i]
             if (alarm.active) {
                 notifications.append(Notification(id: String(i), title: "Alarm", dateTime: alarm.time))
             }
-            i += 1
         }
+ 
         manager.notifications = notifications
         manager.schedule()
     }
