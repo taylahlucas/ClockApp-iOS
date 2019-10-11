@@ -13,7 +13,6 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     public var allAlarms: [Alarm] = []
     public var timer = Timer()
     let manager: LocalNotificationManager = LocalNotificationManager()
-    
     public var editAlarms: Bool = false
 
     // Number of alarms stored in user defaults
@@ -29,7 +28,6 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     // Alarms table
     private let alarmsTable: UITableView = {
         let table: UITableView = UITableView()
-        table.translatesAutoresizingMaskIntoConstraints = false
         UIScheme.instance.setTableScheme(for: table)
         table.register(AlarmTableViewCell.self, forCellReuseIdentifier: "AlarmCell")
         return table
@@ -42,17 +40,17 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         button.addTarget(self, action: #selector(addAlarm(_:)), for: .touchUpInside)
 
         UIScheme.instance.setButtonScheme(for: button)
-        
+    
         return button
     }()
     
     // Edit alarms button
     private let editAlarmButton: UIButton = {
         let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Edit", for: .normal)
-        button.addTarget(self, action: #selector(editAlarm), for: .touchUpInside)
-        button.setTitleColor(UIColor.blue, for: .normal)
+        button.addTarget(self, action: #selector(editAlarm(_:)), for: .touchUpInside)
+        
+        UIScheme.instance.setButtonScheme(for: button)
         
         return button
     }()
@@ -63,20 +61,30 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         alarmsTable.dataSource = self
         alarmsTable.delegate = self
         alarmsTable.allowsSelection = false
-        
+
         self.view.addSubview(editAlarmButton)
         self.view.addSubview(addAlarmButton)
         self.view.addSubview(alarmsTable)
+        
+       // removeObjects()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         setupLayout()
-        readAlarms()
+        decodeAlarms()
         scheduleNotifications()
     }
 
+    func removeObjects() {
+        
+        let dictionary = UserDefaults.standard.dictionaryRepresentation()
+        dictionary.keys.forEach { key in
+            UserDefaults.standard.removeObject(forKey: key)
+        }
+    }
+    
     func setupLayout() {
         UIScheme.instance.setViewScheme(for: self)
         UIColorScheme.instance.setUnselectedButtonScheme(for: addAlarmButton)
@@ -100,11 +108,13 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     }
 
     // Display remove button on all alarms in table
-    @objc func editAlarm() {
+    @objc func editAlarm(_ sender: UIButton) {
         alarmsTable.setEditing(!alarmsTable.isEditing, animated: true)
         if (alarmsTable.isEditing == true) {
+            UIColorScheme.instance.setSelectedButtonScheme(for: sender)
             editAlarmButton.setTitle("Done", for: .normal)
         } else {
+            UIColorScheme.instance.setUnselectedButtonScheme(for: sender)
             editAlarmButton.setTitle("Edit", for: .normal)
         }
     }
@@ -118,7 +128,7 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     // Read alarms stored in UserDefaults
-    func readAlarms() {
+    func decodeAlarms() {
         if let alarmData = UserDefaults.standard.object(forKey: AlarmKey.alarms.rawValue) as? Data {
             let decoder = JSONDecoder()
             if let alarms = try? decoder.decode([Alarm].self, from: alarmData) {
@@ -131,15 +141,16 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     // Schedule notifications to occur based on switches
     func scheduleNotifications() {
         var notifications: [Notification] = [Notification]()
-        for i in 0...(allAlarms.count - 1) {
-            let alarm = allAlarms[i]
-            if (alarm.active) {
-                notifications.append(Notification(id: String(i), title: "Alarm", dateTime: alarm.time))
+        if (allAlarms.count > 0) {
+            for i in 0...(allAlarms.count - 1) {
+                let alarm = allAlarms[i]
+                if (alarm.active) {
+                    notifications.append(Notification(id: String(i), title: "Alarm", dateTime: alarm.time))
+                }
             }
+            manager.notifications = notifications
+            manager.schedule()
         }
- 
-        manager.notifications = notifications
-        manager.schedule()
     }
 
     // Activate or deactivate alarm
@@ -169,6 +180,7 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "AlarmCell", for: indexPath) as? AlarmTableViewCell else {
           return UITableViewCell()
         }
+
         // Convert to 12 hour time for label
         var newHour = time.hour
         if (alarm.type == "PM" && newHour != 12) {

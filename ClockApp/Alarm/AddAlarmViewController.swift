@@ -11,15 +11,15 @@ import Foundation
 
 class AddAlarmViewController: UIViewController {
     
-    public var alarms: [Alarm] = []
+    public var allAlarms: [Alarm] = []
 
     // Time picker
     private lazy var timePicker: UIDatePicker = {
         let picker: UIDatePicker = UIDatePicker()
         picker.translatesAutoresizingMaskIntoConstraints = false
         picker.datePickerMode = .time
-        picker.backgroundColor = UIColor.white
-        picker.setValue(UIColor.black, forKey: "textColor")
+        picker.backgroundColor = Color.darkBackground.value
+        picker.setValue(Color.lightText.value, forKey: "textColor")
 
         return picker
     }()
@@ -27,10 +27,9 @@ class AddAlarmViewController: UIViewController {
     // Button to add alarm
     private lazy var addAlarmButton: UIButton = {
         let button: UIButton = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Add Alarm", for: .normal)
         button.addTarget(self, action: #selector(addAlarm), for: .touchUpInside)
-        button.setTitleColor(UIColor.blue, for: .normal)
+        UIScheme.instance.setButtonScheme(for: button)
         
         return button
     }()
@@ -38,15 +37,16 @@ class AddAlarmViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor.white
-        view.addSubview(timePicker)
-        view.addSubview(addAlarmButton)
-        
         setupLayout()
+        decodeAlarms()
     }
     
     private func setupLayout() {
         UIScheme.instance.setViewScheme(for: self)
+        UIColorScheme.instance.setUnselectedButtonScheme(for: addAlarmButton)
+        
+        view.addSubview(timePicker)
+        view.addSubview(addAlarmButton)
         
         NSLayoutConstraint.activate([
             timePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -57,6 +57,7 @@ class AddAlarmViewController: UIViewController {
     }
     
     @objc func addAlarm() {
+        UIColorScheme.instance.setSelectedButtonScheme(for: addAlarmButton)
         let time = Calendar.current.dateComponents([.hour, .minute], from: self.timePicker.date)
         
         var type = "PM"
@@ -65,12 +66,24 @@ class AddAlarmViewController: UIViewController {
         }
         
         // Create alarm and add to UserDefaults
-        let newAlarm = Alarm(time: time, type: type, active: false)
-        alarms.append(newAlarm)
-        
+        allAlarms.append(Alarm(time: time, type: type, active: false))
         do {
-            let encodeData = try JSONEncoder().encode(alarms)
+            let encodeData = try JSONEncoder().encode(allAlarms)
             UserDefaults.standard.set(encodeData, forKey: AlarmKey.alarms.rawValue)
         } catch { print(error) }
+
+        UserDefaults.standard.set(allAlarms.count, forKey: AlarmKey.alarmCount.rawValue)
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    
+    // Read alarms stored in UserDefaults
+    func decodeAlarms() {
+        if let alarmData = UserDefaults.standard.object(forKey: AlarmKey.alarms.rawValue) as? Data {
+            let decoder = JSONDecoder()
+            if let alarms = try? decoder.decode([Alarm].self, from: alarmData) {
+                allAlarms = alarms
+            }
+        }
     }
 }

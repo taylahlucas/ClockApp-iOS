@@ -63,7 +63,7 @@ class StopwatchViewController: UIViewController, UITableViewDelegate, UITableVie
         let label: UILabel = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "00:00:00"
-        label.textColor = UIColor.black
+        label.textColor = Color.lightText.value
         
         return label
     }()
@@ -71,9 +71,9 @@ class StopwatchViewController: UIViewController, UITableViewDelegate, UITableVie
     // Represents the start button
     private lazy var startButton: UIButton = {
         let button: UIButton = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor.blue, for: .normal)
         button.addTarget(self, action: #selector(startTimer), for: .touchUpInside)
+        UIScheme.instance.setButtonScheme(for: button)
         
         return button
     }()
@@ -81,9 +81,9 @@ class StopwatchViewController: UIViewController, UITableViewDelegate, UITableVie
     // Represents the reset button
     private lazy var resetButton: UIButton = {
         let button: UIButton = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor.blue, for: .normal)
         button.addTarget(self, action: #selector(resetOrLapTimer), for: .touchUpInside)
+        UIScheme.instance.setButtonScheme(for: button)
         
         return button
     }()
@@ -126,12 +126,14 @@ class StopwatchViewController: UIViewController, UITableViewDelegate, UITableVie
     // Sets boolean to trigger timer on and off
     @objc func startTimer() {
         if (timerRunning) {             // Stopping timer
+            UIColorScheme.instance.setUnselectedButtonScheme(for: startButton)
             startButton.setTitle(TimerValues.START.rawValue, for: .normal)
             resetButton.setTitle(TimerValues.RESET.rawValue, for: .normal)
             UserDefaults.standard.set(false, forKey: StopwatchKey.timerRunning.rawValue)
             UserDefaults.standard.set(variableTimer, forKey: StopwatchKey.variableTime.rawValue)
             timer.invalidate()
         } else {                        // Starting timer
+            UIColorScheme.instance.setSelectedButtonScheme(for: startButton)
             startButton.setTitle(TimerValues.STOP.rawValue, for: .normal)
             resetButton.setTitle(TimerValues.LAP.rawValue, for: .normal)
             UserDefaults.standard.set(true, forKey: StopwatchKey.timerRunning.rawValue)

@@ -15,6 +15,7 @@ class UIScheme {
     }
     
     func setTableScheme(for table: UITableView) {
+        table.translatesAutoresizingMaskIntoConstraints = false
         UIColorScheme.instance.setTableColourScheme(for: table)
     }
     
@@ -39,12 +40,14 @@ class UIScheme {
     }
     
     func setButtonScheme(for button: UIButton) {
+        // How to make more rounded buttons?
+        // Button changes size when changing to Edit/Done, how to set size ?
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 10
         button.layer.borderWidth = 0.5
         button.contentEdgeInsets = UIEdgeInsets(top: 12, left: 15, bottom: 12, right: 15)
         button.clipsToBounds = true
-
+        
         UIColorScheme.instance.setUnselectedButtonScheme(for: button)
     }
     
