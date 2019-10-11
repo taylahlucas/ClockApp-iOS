@@ -20,6 +20,9 @@
 		D09A2BE2233B1AD700875DD6 /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09A2BE1233B1AD700875DD6 /* Alarm.swift */; };
 		D0A48C982339D08D008F8636 /* AddAlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A48C972339D08D008F8636 /* AddAlarmViewController.swift */; };
 		D0A48C9A2339D64B008F8636 /* PlaygroundTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A48C992339D64B008F8636 /* PlaygroundTest.swift */; };
+		D0B6D45A234FECC00041B4E4 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B6D459234FECC00041B4E4 /* Colors.swift */; };
+		D0B6D45D234FFD340041B4E4 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B6D45C234FFD340041B4E4 /* Fonts.swift */; };
+		D0B6D45F235004000041B4E4 /* Schemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B6D45E235004000041B4E4 /* Schemes.swift */; };
 		D0C0719D2342C1B2005F74D4 /* ShowAlarmsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0719C2342C1B2005F74D4 /* ShowAlarmsViewController.swift */; };
 		D0C0719F2342DB9B005F74D4 /* AlarmTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0719E2342DB9B005F74D4 /* AlarmTableViewCell.swift */; };
 		D0DAF50D23441272009D0DAD /* StopwatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DAF50C23441272009D0DAD /* StopwatchViewController.swift */; };
@@ -63,6 +66,9 @@
 		D09A2BE1233B1AD700875DD6 /* Alarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alarm.swift; sourceTree = "<group>"; };
 		D0A48C972339D08D008F8636 /* AddAlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAlarmViewController.swift; sourceTree = "<group>"; };
 		D0A48C992339D64B008F8636 /* PlaygroundTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundTest.swift; sourceTree = "<group>"; };
+		D0B6D459234FECC00041B4E4 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		D0B6D45C234FFD340041B4E4 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
+		D0B6D45E235004000041B4E4 /* Schemes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schemes.swift; sourceTree = "<group>"; };
 		D0C0719C2342C1B2005F74D4 /* ShowAlarmsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowAlarmsViewController.swift; sourceTree = "<group>"; };
 		D0C0719E2342DB9B005F74D4 /* AlarmTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmTableViewCell.swift; sourceTree = "<group>"; };
 		D0DAF50C23441272009D0DAD /* StopwatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopwatchViewController.swift; sourceTree = "<group>"; };
@@ -127,6 +133,7 @@
 		D0205D9F2339CD5700D33F30 /* ClockApp */ = {
 			isa = PBXGroup;
 			children = (
+				D0B6D45B234FFD0A0041B4E4 /* UI */,
 				D00A78D0234D4FE80024CEB4 /* App */,
 				D0DAF50B2344124A009D0DAD /* Stopwatch */,
 				D0205DDA2339D01700D33F30 /* Alarm */,
@@ -175,6 +182,16 @@
 				D00A78D3234D7CF00024CEB4 /* AlarmKey.swift */,
 			);
 			path = Alarm;
+			sourceTree = "<group>";
+		};
+		D0B6D45B234FFD0A0041B4E4 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				D0B6D459234FECC00041B4E4 /* Colors.swift */,
+				D0B6D45C234FFD340041B4E4 /* Fonts.swift */,
+				D0B6D45E235004000041B4E4 /* Schemes.swift */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 		D0DAF50B2344124A009D0DAD /* Stopwatch */ = {
@@ -317,11 +334,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0B6D45F235004000041B4E4 /* Schemes.swift in Sources */,
 				D0A48C982339D08D008F8636 /* AddAlarmViewController.swift in Sources */,
+				D0B6D45D234FFD340041B4E4 /* Fonts.swift in Sources */,
 				D00A78D4234D7CF00024CEB4 /* AlarmKey.swift in Sources */,
 				D0205DA12339CD5700D33F30 /* AppDelegate.swift in Sources */,
 				D00A78CF234D4F5F0024CEB4 /* LocalNotificationManager.swift in Sources */,
 				D09A2BE2233B1AD700875DD6 /* Alarm.swift in Sources */,
+				D0B6D45A234FECC00041B4E4 /* Colors.swift in Sources */,
 				D00A78CB234D37320024CEB4 /* StopwatchKey.swift in Sources */,
 				D00A78CD234D3C650024CEB4 /* TimerValues.swift in Sources */,
 				D0DAF50F234412DB009D0DAD /* TabBarController.swift in Sources */,

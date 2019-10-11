@@ -17,8 +17,7 @@ class StopwatchViewController: UIViewController, UITableViewDelegate, UITableVie
     private let lapsTable: UITableView = {
         let table: UITableView = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
-        table.backgroundColor = UIColor.lightGray
-
+        UIScheme.instance.setTableScheme(for: table)
         table.register(UITableViewCell.self, forCellReuseIdentifier: "LapCell")
         
         return table
@@ -102,8 +101,7 @@ class StopwatchViewController: UIViewController, UITableViewDelegate, UITableVie
     }
 
     private func setupLayout() {
-        view.backgroundColor = UIColor.white
-        
+        UIScheme.instance.setViewScheme(for: self)
         // Add subviews
         view.addSubview(displayTimer)
         view.addSubview(resetButton)
@@ -203,11 +201,11 @@ class StopwatchViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "LapCell", for: indexPath)
-        cell.backgroundColor = UIColor.white
-        cell.textLabel?.textColor = UIColor.black
-        cell.textLabel?.text = savedLaps[indexPath.row]
         
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LapCell", for: indexPath)
+        UIScheme.instance.setCellScheme(for: cell)
+        cell.textLabel?.text = savedLaps[indexPath.row]
+
         return cell
     }
 }

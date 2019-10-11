@@ -15,12 +15,20 @@ struct AlarmCell: Codable {
 
 class AlarmTableViewCell: UITableViewCell {
     // Defines alarm cell time
-    private let timeLabel: UILabel = {
+    public let timeLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = UIColor.black
         label.textAlignment = .left
 
+        return label
+    }()
+    
+    // Represents AM or PM
+    public let typeLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+ 
         return label
     }()
    
@@ -32,15 +40,6 @@ class AlarmTableViewCell: UITableViewCell {
         return swi
     }()
     
-    // Repesents button to remove alarm
-    public let removeAlarmButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(nil, for: .normal)
-        
-        return button
-    }()
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -48,8 +47,8 @@ class AlarmTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.contentView.addSubview(removeAlarmButton)
         self.contentView.addSubview(timeLabel)
+        self.contentView.addSubview(typeLabel)
         self.contentView.addSubview(activateAlarmSwitch)
         
         setupLayout()
@@ -57,11 +56,10 @@ class AlarmTableViewCell: UITableViewCell {
     
     func setupLayout() {
         NSLayoutConstraint.activate([
-            removeAlarmButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            timeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            timeLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             timeLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20),
-            timeLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -40),
-            timeLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            typeLabel.bottomAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: -5),
+            typeLabel.leftAnchor.constraint(equalTo: timeLabel.rightAnchor, constant: 5),
             activateAlarmSwitch.rightAnchor.constraint(equalTo: rightAnchor, constant: -20),
             activateAlarmSwitch.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])

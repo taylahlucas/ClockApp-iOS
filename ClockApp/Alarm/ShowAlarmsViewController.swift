@@ -20,13 +20,17 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     private var alarmCount: Int {
         return UserDefaults.standard.integer(forKey: AlarmKey.alarmCount.rawValue)
     }
+    
+    // Indicates whether the timer is running or not
+    public var timerRunning: Bool {
+       return UserDefaults.standard.bool(forKey: "timerRunning")
+    }
 
     // Alarms table
     private let alarmsTable: UITableView = {
         let table: UITableView = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
-        table.backgroundColor = UIColor.lightGray
-
+        UIScheme.instance.setTableScheme(for: table)
         table.register(AlarmTableViewCell.self, forCellReuseIdentifier: "AlarmCell")
         return table
     }()
@@ -34,10 +38,10 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     // Add alarms button
     private let addAlarmButton: UIButton = {
         let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Add", for: .normal)
-        button.addTarget(self, action: #selector(addAlarm), for: .touchUpInside)
-        button.setTitleColor(UIColor.blue, for: .normal)
+        button.addTarget(self, action: #selector(addAlarm(_:)), for: .touchUpInside)
+
+        UIScheme.instance.setButtonScheme(for: button)
         
         return button
     }()
@@ -63,19 +67,19 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         self.view.addSubview(editAlarmButton)
         self.view.addSubview(addAlarmButton)
         self.view.addSubview(alarmsTable)
-    
-        setupLayout()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
+        setupLayout()
         readAlarms()
         scheduleNotifications()
     }
 
     func setupLayout() {
-        view.backgroundColor = UIColor.white
+        UIScheme.instance.setViewScheme(for: self)
+        UIColorScheme.instance.setUnselectedButtonScheme(for: addAlarmButton)
         
         NSLayoutConstraint.activate([
             editAlarmButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
@@ -90,7 +94,8 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     // Present add alarm page
-    @objc func addAlarm() {
+    @objc func addAlarm(_ sender: UIButton) {
+        UIColorScheme.instance.setSelectedButtonScheme(for: sender)
         self.navigationController?.pushViewController(AddAlarmViewController(), animated: true)
     }
 
@@ -148,10 +153,6 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         scheduleNotifications()
     }
     
-    public var timerRunning: Bool {
-       return UserDefaults.standard.bool(forKey: "timerRunning")
-    }
-    
     /* TABLE FUNCTIONS */
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return UserDefaults.standard.integer(forKey: AlarmKey.alarmCount.rawValue)
@@ -178,18 +179,18 @@ class ShowAlarmsViewController: UIViewController, UITableViewDelegate, UITableVi
         if (time.minute ?? 0 < 10) {
             newMin = "0" + "\(time.minute ?? 0)"
         }
-
-        cell.textLabel?.text =  "\(newHour ?? 0)" + ":" + newMin + alarm.type
-        cell.textLabel?.textColor = UIColor.black
-        cell.backgroundColor = UIColor.white
+        
+        cell.timeLabel.text = "\(newHour ?? 0)" + ":" + newMin
+        cell.typeLabel.text = alarm.type
+        
+        UIScheme.instance.setAlarmCellScheme(for: cell)
+        
         cell.activateAlarmSwitch.addTarget(self, action: #selector(activateAlarm(_:)), for: .touchUpInside)
-      
-        cell.activateAlarmSwitch.isOn = alarm.active        // Set initial switch value
+        cell.activateAlarmSwitch.isOn = alarm.active
 
         return cell
     }
     
-    // Remove alarm
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         allAlarms.remove(at: indexPath.row)
         UserDefaults.standard.set(alarmCount-1, forKey: AlarmKey.alarmCount.rawValue)

@@ -46,6 +46,8 @@ class AddAlarmViewController: UIViewController {
     }
     
     private func setupLayout() {
+        UIScheme.instance.setViewScheme(for: self)
+        
         NSLayoutConstraint.activate([
             timePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             timePicker.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
@@ -70,4 +72,5 @@ class AddAlarmViewController: UIViewController {
             let encodeData = try JSONEncoder().encode(alarms)
             UserDefaults.standard.set(encodeData, forKey: AlarmKey.alarms.rawValue)
         } catch { print(error) }
+    }
 }

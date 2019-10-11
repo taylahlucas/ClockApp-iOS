@@ -25,7 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
         
-
         // Alarm notifications
         let center = UNUserNotificationCenter.current()
         center.delegate = self
@@ -70,5 +69,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
     }
+    
 }
 
