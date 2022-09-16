@@ -70,4 +70,5 @@ class AddAlarmViewController: UIViewController {
             let encodeData = try JSONEncoder().encode(alarms)
             UserDefaults.standard.set(encodeData, forKey: AlarmKey.alarms.rawValue)
         } catch { print(error) }
+    }
 }
