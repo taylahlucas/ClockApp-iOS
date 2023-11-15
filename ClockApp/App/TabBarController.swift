@@ -12,14 +12,17 @@ class TabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-         
-        let showAlarmsViewcontroller = ShowAlarmsViewController()
-        showAlarmsViewcontroller.tabBarItem = UITabBarItem(title: "Alarms", image: .none, tag: 0)
+        
+        let fontAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 24.0)]
+        UITabBarItem.appearance().setTitleTextAttributes(fontAttributes, for: .normal)
+        
+        let showAlarmsViewController = ShowAlarmsViewController()
+        showAlarmsViewController.tabBarItem = UITabBarItem(title: "Alarms", image: .none, tag: 0)
         
         let stopwatchViewController = StopwatchViewController()
         stopwatchViewController.tabBarItem = UITabBarItem(title: "Stopwatch", image: .none, tag: 1)
         
-        let tabBarList = [showAlarmsViewcontroller, stopwatchViewController]
+        let tabBarList = [showAlarmsViewController, stopwatchViewController]
         
         viewControllers = tabBarList
     }

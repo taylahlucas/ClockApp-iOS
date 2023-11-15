@@ -64,6 +64,7 @@ class StopwatchViewController: UIViewController, UITableViewDelegate, UITableVie
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "00:00:00"
         label.textColor = Color.lightText.value
+        label.font = UIFont.systemFont(ofSize: 26.0)
         
         return label
     }()

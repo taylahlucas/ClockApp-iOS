@@ -18,7 +18,7 @@ class AddAlarmViewController: UIViewController {
         let picker: UIDatePicker = UIDatePicker()
         picker.translatesAutoresizingMaskIntoConstraints = false
         picker.datePickerMode = .time
-        picker.backgroundColor = Color.darkBackground.value
+        picker.backgroundColor = Color.lightBackground.value
         picker.setValue(Color.lightText.value, forKey: "textColor")
 
         return picker
